@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vermögensschutz mit UK CLG – Interaktive Strategieübersicht</title>
+<style>
+
+   :root {
+     --primary: #2b6e8f;
+     --primary-light: #3a95b8;
+     --primary-bg: #e8f4f8;
+     --accent: #d4794a;
+     --accent-light: #f0b496;
+     --green: #3da65f;
+     --green-bg: #e6f5ec;
+     --orange: #e8943a;
+     --orange-bg: #fef2e4;
+     --red: #c94a4a;
+     --red-bg: #fcecec;
+     --gray-100: #f7f8fa;
+     --gray-200: #eef0f3;
+     --gray-500: #6b7a8d;
+     --gray-700: #374352;
+     --white: #ffffff;
+     --radius: 10px;
+     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+     --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+     --shadow-lg: 0 10px 30px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+
+   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    line-height: 1.65;
+    overflow-x: hidden;
+   }
+
+   /* ─── NAV ─── */
+   .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    padding: 30px 0;
+    overflow-y: auto;
+    z-index: 100;
+   }
+
+   .sidebar-header {
+    padding: 0 24px 20px;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 16px;
+   }
+
+   .sidebar-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--primary);
+    margin-bottom: 4px;
+   }
+
+   .sidebar-header p {
+    font-size: 11px;
+    color: var(--gray-500);
+   }
+
+   .nav-list { list-style: none; }
+
+   .nav-item {
+    padding: 9px 24px;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+   }
+
+   .nav-item:hover {
+    background: var(--primary-bg);
+    color: var(--primary);
+   }
+
+   .nav-item.active {
+    background: var(--primary-bg);
+    border-left-color: var(--primary);
+    font-weight: 600;
+    color: var(--primary);
+   }
+
+   .nav-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+   }
+
+   /* ─── MAIN ─── */
+   .main {
+    margin-left: 260px;
+    padding: 0;
+    min-height: 100vh;
+   }
+
+   /* ─── HERO (Mobile-optimized) ─── */
+   .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #4a9fd4 100%);
+    color: white;
+    padding: 60px 50px 50px;
+    position: relative;
+    overflow: hidden;
+   }
+
+   .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+   }
+
+   .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%; left: 10%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+   }
+
+   .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+   }
+
+   .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    backdrop-filter: blur(4px);
+   }
+
+   .hero h1 {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 14px;
+   }
+
+   .hero p {
+    font-size: clamp(14px, 2vw, 15px);
+    opacity: 0.9;
+    max-width: 600px;
+    line-height: 1.7;
+   }
+
+   /* Conversion CTA button in hero */
+   .hero-cta {
+    display: inline-block;
+    margin-top: 20px;
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+   }
+
+   .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+   }
+
+   /* ─── TRUST BADGES (Conversion) ─── */
+   .trust-bar {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 14px 0;
+   }
+
+   .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+   }
+
+   .trust-badge-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   /* ─── CONTENT AREAS (Mobile-optimized) ─── */
+   .content-section {
+    padding: 40px 50px;
+    border-bottom: 1px solid var(--gray-200);
+   }
+
+   .section-title {
+    font-size: clamp(18px, 3vw, 22px);
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+   }
+
+   .section-subtitle {
+    font-size: clamp(13px, 2vw, 14px);
+    color: var(--gray-500);
+    margin-bottom: 24px;
+   }
+
+   /* ─── CARDS (Mobile-responsive grid) ─── */
+   .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+   }
+
+   .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+   }
+
+   .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+   }
+
+   .card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--gray-200);
+   }
+
+   .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+   }
+
+   .card-icon.blue { background: var(--primary-bg); color: var(--primary); }
+   .card-icon.orange { background: var(--orange-bg); color: var(--orange); }
+   .card-icon.green { background: var(--green-bg); color: var(--green); }
+   .card-icon.red { background: var(--red-bg); color: var(--red); }
+
+   .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-700);
+   }
+
+   .card-body {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.65;
+    display: none;
+   }
+
+   .card.open .card-body { display: block; }
+
+   .card-summary {
+    padding: 14px 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+   }
+
+   /* ─── BALANCE SCALE (Mobile-friendly) ─── */
+   .scale-container {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 24px 30px;
+    margin-bottom: 24px;
+   }
+
+   .scale-title {
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary);
+   }
+
+   .scale-bar {
+    position: relative;
+    height: 40px;
+    background: linear-gradient(90deg, var(--red-bg) 0%, var(--orange-bg) 35%, var(--green-bg) 65%, var(--white) 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 12px;
+   }
+
+   .scale-marker {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gray-700);
+    cursor: grab;
+   }
+
+   .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--gray-500);
+    font-weight: 600;
+   }
+
+   .scale-desc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+   }
+
+   .scale-side {
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+   }
+
+   .scale-side.left {
+    background: var(--orange-bg);
+    border-left: 3px solid var(--orange);
+   }
+
+   .scale-side.right {
+    background: var(--green-bg);
+    border-left: 3px solid var(--green);
+   }
+
+   .scale-side h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 5px;
+   }
+
+   /* ─── INTERACTIVE CHECKLIST (Mobile) ─── */
+   .checklist-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 24px 30px;
+   }
+
+   .checklist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+   }
+
+   .checklist-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+   }
+
+   .progress-ring {
+    width: 48px;
+    height: 48px;
+    position: relative;
+   }
+
+   .progress-ring svg {
+    transform: rotate(-90deg);
+   }
+
+   .progress-ring circle {
+    fill: none;
+    stroke-width: 3.5;
+   }
+
+   .progress-ring .bg { stroke: var(--gray-200); }
+   .progress-ring .fg { stroke: var(--primary); transition: stroke-dashoffset 0.4s ease; }
+
+   .checklist-progress-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+   }
+
+   .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    transition: var(--transition);
+    cursor: pointer;
+   }
+
+   .checklist-item:hover { background: var(--primary-bg); }
+
+   .checklist-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--gray-200);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    margin-top: 1px;
+   }
+
+   .checklist-check.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+   }
+
+   .checklist-check.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+   }
+
+   .checklist-text {
+    flex: 1;
+   }
+
+   .checklist-text h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 2px;
+   }
+
+   .checklist-text p {
+    font-size: 12px;
+    color: var(--gray-500);
+    line-height: 1.5;
+    display: none;
+   }
+
+   .checklist-item.open .checklist-text p { display: block; }
+
+   /* Conversion button on checklist */
+   .checklist-cta {
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+   }
+
+   .checklist-cta:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+   }
+
+   /* ─── RISK LIGHTS (Mobile grid) ─── */
+   .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+   }
+
+   .risk-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+    border-left: 4px solid var(--gray-200);
+    transition: var(--transition);
+   }
+
+   .risk-card.red { border-left-color: var(--red); }
+   .risk-card.orange { border-left-color: var(--orange); }
+   .risk-card.green { border-left-color: var(--green); }
+
+   .risk-card:hover { box-shadow: var(--shadow-md); }
+
+   .risk-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+   }
+
+   .risk-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+   }
+
+   .risk-dot.red { background: var(--red); }
+   .risk-dot.orange { background: var(--orange); }
+   .risk-dot.green { background: var(--green); }
+
+   .risk-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+   }
+
+   .risk-card p {
+    font-size: 12px;
+    color: var(--gray-500);
+    line-height: 1.55;
+    margin-top: 5px;
+   }
+
+   /* ─── TABS (Mobile scrollable) ─── */
+   .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--gray-200);
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 18px;
+    width: fit-content;
+   }
+
+   .tab-btn {
+    padding: 8px 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--gray-500);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+   }
+
+   .tab-btn.active {
+    background: var(--white);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+   }
+
+   .tab-content { display: none; }
+   .tab-content.active { display: block; }
+
+   /* ─── CALLOUT BOXES (Conversion-optimized) ─── */
+   .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+   }
+
+   .callout-tip {
+    background: var(--green-bg);
+    border-left: 3px solid var(--green);
+   }
+
+   .callout-warn {
+    background: var(--orange-bg);
+    border-left: 3px solid var(--orange);
+   }
+
+   .callout strong { color: var(--gray-700); }
+
+   /* ─── ACCORDION (Mobile-friendly) ─── */
+   .accordion-item {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 10px;
+    overflow: hidden;
+   }
+
+   .accordion-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: var(--transition);
+   }
+
+   .accordion-header:hover { background: var(--gray-100); }
+
+   .accordion-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+   }
+
+   .accordion-arrow {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    color: var(--gray-500);
+   }
+
+   .accordion-item.open .accordion-arrow { transform: rotate(90deg); }
+
+   .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+   }
+
+   .accordion-item.open .accordion-body { max-height: 2000px; }
+
+   .accordion-content {
+    padding: 14px 20px 20px;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.65;
+   }
+
+   /* ─── FAQ CARDS (Mobile-optimized) ─── */
+   .faq-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: var(--transition);
+   }
+
+   .faq-card:hover {
+    box-shadow: var(--shadow-md);
+   }
+
+   .faq-question {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+   }
+
+   .faq-question:hover {
+    background: var(--primary-bg);
+   }
+
+   .faq-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--primary-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+   }
+
+   .faq-question h3 {
+    flex: 1;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin: 0;
+   }
+
+   .faq-arrow {
+    font-size: 11px;
+    transition: transform 0.3s ease;
+    color: var(--gray-500);
+   }
+
+   .faq-card.open .faq-answer { max-height: 2000px; }
+
+   .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+   }
+
+   .faq-answer-inner {
+    padding: 0 18px 16px 58px;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.6;
+   }
+
+   .faq-summary {
+    margin-top: 24px;
+    padding: 22px;
+    background: linear-gradient(135deg, var(--primary) 0%, #4a9fd4 100%);
+    border-radius: var(--radius);
+    text-align: center;
+    color: white;
+   }
+
+   .faq-summary p {
+    font-size: 14px;
+    line-height: 1.65;
+   }
+
+   /* ─── KEY METRICS ROW (Mobile-responsive) ─── */
+   .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+   }
+
+   .metric-box {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 14px;
+    text-align: center;
+   }
+
+   .metric-value {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    color: var(--primary);
+   }
+
+   .metric-label {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+   }
+
+   /* ─── TABLE (Mobile-scrollable) ─── */
+   .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+   }
+
+   .data-table th {
+    background: var(--primary-bg);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+   }
+
+   .data-table td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--gray-200);
+    color: var(--gray-700);
+   }
+
+   /* ─── SCROLLBAR ─── */
+   ::-webkit-scrollbar { width: 5px; }
+   ::-webkit-scrollbar-track { background: transparent; }
+   ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
+
+   /* ─── ANIMATIONS ─── */
+   @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+   }
+
+   .animate-in {
+    animation: fadeInUp 0.5s ease forwards;
+   }
+
+   /* ─── ACCESSIBILITY ─── */
+   *:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+   }
+
+   .accordion-item:focus-within,
+   .card:focus-within {
+    box-shadow: 0 0 0 3px var(--primary-light), var(--shadow-md);
+   }
+
+   /* ─── PRINT ─── */
+   @media print {
+     .sidebar { display: none; }
+     .main { margin-left: 0; }
+     .card-body, .checklist-text p { display: block !important; }
+     .accordion-body { max-height: none !important; }
+     .faq-answer { max-height: none !important; }
+   }
+
+   /* ═══════════════════════════════
+      MOBILE BREAKPOINTS (optimized)
+      ═══════════════════════════════ */
+   
+   @media (max-width: 900px) {
+     .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+     }
+     .main { 
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding-top: 60px;
+        overflow-x: hidden;
+        }
+     .hero { padding: 50px 24px 40px; }
+     .content-section { padding: 28px 24px; }
+     .card-grid { grid-template-columns: 1fr; }
+     .risk-grid { grid-template-columns: 1fr; }
+     .scale-desc-grid { grid-template-columns: 1fr; }
+     .metrics-row { grid-template-columns: repeat(2, 1fr); }
+   }
+
+   /* ─── HAMBURGER MENU (Mobile) ─── */
+   .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 200;
+    width: 44px; height: 44px;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .menu-toggle span {
+    display: block;
+    width: 18px; height: 2px;
+    background: white;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+   }
+
+   @media (max-width: 900px) {
+     .menu-toggle { display: flex !important; }
+     .sidebar.open { transform: translateX(0); }
+   }
+
+   /* ─── SMALL MOBILE (smartphone portrait) ─── */
+   @media (max-width: 600px) {
+     .hero {
+      padding: 48px 20px 36px;
+     }
+     .hero h1 {
+      font-size: 22px;
+     }
+     .hero p {
+      font-size: 13.5px;
+     }
+     .content-section {
+      padding: 24px 16px;
+     }
+     .card-grid,
+     .risk-grid {
+      grid-template-columns: 1fr;
+     }
+     .metrics-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+     }
+     .metric-box {
+      padding: 14px 10px;
+     }
+     .scale-container {
+      padding: 20px 18px;
+     }
+     .checklist-section {
+      padding: 20px 16px;
+     }
+     .faq-question h3 {
+      font-size: 13px;
+     }
+     .faq-answer-inner {
+      padding: 0 14px 14px 14px;
+     }
+     .faq-summary p {
+      font-size: 13.5px;
+     }
+     .trust-bar {
+      gap: 12px;
+     }
+   }
+
+   @media (max-width: 480px) {
+     .hero h1 {
+      font-size: 20px;
+     }
+     .hero p {
+      font-size: 13px;
+     }
+     .content-section {
+      padding: 20px 14px;
+     }
+     .metrics-row {
+      grid-template-columns: 1fr;
+     }
+     .metric-box {
+      padding: 12px 10px;
+     }
+   }
+
+   @media (max-width: 380px) {
+     .hero h1 {
+      font-size: 18px;
+     }
+   }
+     /* ─── Tables on mobile ─── */
+     .data-table { width: 100% !important; display: block; overflow-x: auto; }
+     .data-table th, .data-table td { white-space: normal !important; word-wrap: break-word; }
+     @media (max-width: 600px) {
+       .data-table { font-size: 10px !important; }
+       .data-table th, .data-table td { padding: 6px 8px !important; font-size: 9.5px !important; }
+     }
+</style>
+</head>
+<body>
+
+<!-- ═══════ SIDEBAR NAV ═══════ -->
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Menü öffnen und schließen">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="sidebar" id="sidebarNav" role="navigation" aria-label="Hauptnavigation">
+  <div class="sidebar-header">
+    <h2>Inhalt</h2>
+    <p>CLG Vermögensschutz DACH</p>
+  </div>
+  <ul class="nav-list" id="navList">
+    <li class="nav-item active" data-target="hero"><span class="nav-icon">🏠</span>Übersicht</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-balance" aria-label="Grundspannung Kontrolle gegen Schutz"><span class="nav-icon">⚖️</span>Kontrolle vs. Schutz</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-0"><span class="nav-icon">🇬🇧</span>CLG erkennen (DE/AT)</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-2"><span class="nav-icon">🏛️</span>Vermögensschutz</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-immo"><span class="nav-icon">🏠</span>Immobilien</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-crypto"><span class="nav-icon">🔐</span>Krypto & Gold</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-tax"><span class="nav-icon">📊</span>Steuerrecht</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-risk" aria-label="Risikoliste und Gefahrenampel"><span class="nav-icon">🚦</span>Risikoliste</li>
+    <li class="nav-item" tabindex="0" role="tab" data-target="section-checklist"><span class="nav-icon">✅</span>Checkliste</li>
+      <li class="nav-item" tabindex="0" role="tab" data-target="section-qa">        <span class="nav-icon">💡</span>Fragen &amp; Antworten</li>
+      <li class="nav-item" tabindex="0" role="tab" data-target="section-glossar">        <span class="nav-icon">📖</span>Glossar</li>
+      <li class="nav-item" tabindex="0" role="tab" data-target="section-benefits">        <span class="nav-icon">✅</span>Vorteile</li>
+      <li class="nav-item" tabindex="0" role="tab" data-target="section-gold">        <span class="nav-icon">🥇</span>Sachwerte</li>
+      <li class="nav-item" tabindex="0" role="tab" data-target="section-references">        <span class="nav-icon">📚</span>Quellen</li>
+  </ul>
+</nav>
+
+<!-- ═══════ MAIN CONTENT ═══════ -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Strategie & Umsetzung</span>
+      <h1>Vermögensschutz mit einer UK Company Limited by Guarantee</h1>
+      <p>Interaktive Analyse für DACH-Mandanten — Struktur, Risiken, Schritte und praktische Empfehlungen.</p>
+    </div>
+  </section>
+
+  
+   <!-- GLOSSARY / Fachbegriffe erklaren -->
+   <section class="content-section" id="section-glossar">
+     <h2 class="section-title">📖 Glossar — Fachbegriffe einfach erklart</h2>
+     <p class="section-subtitle">Kurze Erklarungen wichtiger Begriffe, damit auch Nicht-Juristen den Inhalt verstehen.</p>
+     
+     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;">
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">Sitztheorie</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Deutschland und Osterreich erkennen eine Gesellschaft nur an, wenn ihre Verwaltung tatsachlich im Land sitzt. Eine UK-Gesellschaft, die aus Deutschland gefuhrt wird, gilt dort nicht als britische Ltd.
+         </div>
+       </div>
+       
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon green">📋</div><div class="card-title">Schenkungsteuer (Klasse III)</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Wenn Vermogen an eine fremde juristische Person geht, kann eine Steuer von 30–50% fällig werden — je nach Wert. Dies gilt besonders wenn keine anerkannte Familienstiftung vorliegt.
+         </div>
+       </div>
+
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon orange">📋</div><div class="card-title">Hinzurechnungsbesteuerung (§ 7 AStG)</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Passive Einkunfte (Zinsen, Dividenden) einer niedriger besteuerten Auslands-Gesellschaft konnen dem Inlander zugerechnet werden — auch ohne dass Geld ausgezahlt wird. Schwellenwert: unter 15% effektive Steuer.
+         </div>
+       </div>
+
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">Schein/Gestaltungsmissbrauch (§ 42 AO)</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Wenn eine Gesellschaft nur als "Hülle" ohne echte Substanz dient, kann das Finanzamt die steuerliche Zurechnung durchschauen — der Schutz entfallt.
+         </div>
+       </div>
+
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon green">📋</div><div class="card-title">CLG — Company Limited by Guarantee</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Eine britische Rechtsform ohne Aktien, sondern mit Garantiezusage. Ahnlich einer Stiftung: keine Aktionare, aber Mitglieder die haftungsbeschrankt sind. Ideal fur gemeinnutzige oder vermogensverwaltende Strukturen.
+         </div>
+       </div>
+
+       <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+         <div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">Inkorporationstheorie (Schweiz)</div></div>
+         <div class="accordion-content" style="font-size:13px; padding: 14px 22px;">
+           Die Schweiz erkennt eine Gesellschaft an, wenn sie korrekt im Inkorporationsland gegrundet wurde — unabhängig vom Verwaltungssitz. Das ist gunstiger als die deutsche Sitztheorie.
+         </div>
+       </div>
+     </div>
+   </section>
+
+   <!-- KEY METRICS -->
+  <section class="content-section">
+    <div class="metrics-row animate-in">
+      <div class="metric-box">
+        <div class="metric-value">🇬🇧</div>
+        <div class="metric-label">UK Rechtsform</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">3</div>
+        <div class="metric-label">DACH-Staaten</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">10</div>
+        <div class="metric-label">Schritte zur Umsetzung</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">⚠️</div>
+        <div class="metric-label">Brexit-Folgen beachten</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: BALANCE (Control vs Protection) ═══════ -->
+  <!-- MOVED UP: Benefits section for better balance -->
+     <section class="content-section" id="section-benefits-early">
+       <h2 class="section-title">✅ Vorteile der UK CLG-Struktur</h2>
+        <p class="section-subtitle">Neben Risiken gibt die CLG auch konkrete Vorteile, wenn sie richtig aufgebaut wird.</p>
+
+       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;">
+         <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+           <div class="card-header"><div class="card-icon green">🛡️</div><div class="card-title">Haftungsbeschränkung der Mitglieder</div></div>
+            <div style="padding: 14px 20px; font-size: 13px;">Mitglieder haften nur mit einer garantierten Summe (typ. £1–£100). Das Privatvermögen bleibt bei korrekt geführter CLG geschützt [2][4].</div>
+         </div>
+         <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+           <div class="card-header"><div class="card-icon green">🏛️</div><div class="card-title">Stiftungsähnlicher Aufbau</div></div>
+            <div style="padding: 14px 20px; font-size: 13px;">Keine Aktien, keine Shares — ähnlich einer Stiftung. Ideal für Vermögensabschirmung und gemeinwohlorientierte Strukturen [1][3].</div>
+         </div>
+         <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+           <div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">Flexible Governance</div></div>
+            <div style="padding: 14px 20px; font-size: 13px;">Die Articles of Association können individuell gestaltet werden. Steuerung durch Directors mit klarer Trennung [5][7].</div>
+         </div>
+         <div class="card" onclick="toggleCard(this)" style="cursor: default;">
+           <div class="card-header"><div class="card-icon blue">🌍</div><div class="card-title">Internationale Anerkennung</div></div>
+            <div style="padding: 14px 20px; font-size: 13px;">Die UK CLG ist international anerkannt — besonders in Common-Law-Systemen und der Schweiz [29].</div>
+         </div>
+       </div>
+     </section>
+
+     <section class="content-section" id="section-balance">
+    <h2 class="section-title">⚖️ Die Grundspannung</h2>
+    <p class="section-subtitle">Schutz und Kontrolle verhalten sich gegenläufig — dieser Balanceakt bestimmt den Erfolg der Struktur.</p>
+
+    <div class="scale-container animate-in">
+      <div class="scale-title">Mehr Kontrolle ← → Mehr Schutz</div>
+      <div class="scale-bar">
+        <div class="scale-marker" id="scaleMarker" style="left: 65%"></div>
+      </div>
+      <div class="scale-labels">
+        <span>Mehr Kontrolle</span>
+        <span>Mehr Schutz</span>
+      </div>
+      <div class="scale-desc-grid">
+        <div class="scale-side left">
+          <h4>⚠️ Maximale Kontrolle (Risiko-Szenario)</h4>
+          <p>Mandant ist Alleindirector, alleiniger Begünstigter. Struktur wird als <strong>Scheingestaltung</strong> behandelt → zivilrechtlicher Durchgriff (§ 42 AO), steuerliche Zurechnung (§ 15 AStG) und mangels Anerkennung nach Sitztheorie sogar <strong>unbeschränkte persönliche Haftung</strong>. Schlechteste aller Welten.</p>
+        </div>
+        <div class="scale-side right">
+          <h4>✅ Echte Entäußerung (Empfohlener Weg)</h4>
+          <p>Unabhängiges Board, breiterer Begünstigtenkreis, reale Substanz in UK. <strong>Echter Schutz,</strong> aber der Mandant verfügt nicht mehr frei über sein Vermögen — echte Kontrolle wird abgegeben.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Balance slider interaction -->
+    <div class="accordion-item open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>📌</span> Der belastbare Mittelweg — was realistisch erreichbar ist</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Echte Substanz + Governance, die dem Mandanten <strong>Einfluss</strong> sichert (als ein Director unter mehreren, mit dokumentierten Zustimmungsvorbehalten), ohne ihn zum alleinigen wirtschaftlich Berechtigten zu machen.</p>
+          <br>
+          <div class="callout callout-tip">
+            <strong>💡 Kernbotschaft:</strong> Wer Schutz und volle Kontrolle gleichzeitig will, scheitert. Akzeptieren Sie den Kontrollverzicht als <strong>Preis des Schutzes</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION 0: CLG RECOGNITION ═══════ -->
+  <section class="content-section" id="section-0">
+    <h2 class="section-title">🇬🇧 Post-Brexit: UK CLG in DACH?</h2>
+    <p class="section-subtitle">Seit dem Brexit ist das Vereinigte Königreich Drittstaat — die unionsrechtliche Niederlassungsfreiheit gilt nicht mehr.</p>
+
+    <div class="accordion-item open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>🇩🇪</span> Deutschland & Österreich: Sitztheorie</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Deutschland und Österreich folgen der <strong>Sitztheorie</strong>: Maßgeblich ist das Recht des Staates, in dem die Gesellschaft ihren <strong>tatsächlichen Verwaltungssitz</strong> hat.</p>
+          <br>
+          <p>Wird eine UK-Gesellschaft faktisch aus DE/AT geführt, wird sie dort <strong>nicht mehr als UK-Kapitalgesellschaft mit Haftungsbeschränkung anerkannt</strong>.</p>
+          <br>
+          <div class="callout callout-warn">
+            <strong>⚠️ Rechtsfolge:</strong> Verlust der Haftungsbeschränkung. Die Gesellschaft wird als GbR/OHG oder Einzelunternehmen behandelt — mit <strong>voller, persönlicher und unbeschränkter Haftung</strong>. Bestätigt durch OLG München (2021) und OGH (2022).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>🇨🇭</span> Schweiz: Inkorporationstheorie</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Die Schweiz folgt der <strong>Inkorporationstheorie</strong> (Art. 154 IPRG) und erkennt eine nach UK-Recht gegründete Gesellschaft grundsätzlich an.</p>
+          <br>
+          <p>Aber: Wird die CLG aus der Schweiz geleitet, droht <strong>steuerliche Ansässigkeit</strong> und persönliche Handelndenhaftung nach Art. 159 IPRG.</p>
+          <div class="callout callout-tip">
+            <strong>✅ Empfohlene Bedingung:</strong> Verwaltungssitz <em>nachweisbar</em> in UK — ortsansässige Director(s), in UK abgehaltene Board-Meetings, eigenes Büro/Personal, UK-Bankkonto.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>📋</span> Zusammenfassung: Sitztheorie-Check</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <table class="data-table">
+            <thead>
+              <tr><th>Land</th><th>Theorie</th><th>Anerkennung</th><th>Risiko bei DACH-Steuerung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>🇩🇪 Deutschland</td><td>Sitztheorie</td><td>Nur mit UK-Sitz</td><td style="color:var(--red)">Vollständige Haftung</td></tr>
+              <tr><td>🇦🇹 Österreich</td><td>Sitztheorie</td><td>Nur mit UK-Sitz</td><td style="color:var(--red)">Vollständige Haftung</td></tr>
+              <tr><td>🇨🇭 Schweiz</td><td>Inkorporationstheorie</td><td>Grundsätzlich ja</td><td style="color:var(--orange)">Steueransässigkeit</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION 2: ASSET PROTECTION BASICS ═══════ -->
+  <section class="content-section" id="section-2">
+    <h2 class="section-title">🏛️ Vermögensschutz: Grundlogik</h2>
+    <p class="section-subtitle">Zivilrechtliche Zuordnung vs. wirtschaftliches Eigentum — wer hat die Herrschaft?</p>
+
+    <div class="card-grid">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-icon blue">📐</div>
+          <div class="card-title">Wirtschaftliches Eigentum</div>
+        </div>
+        <div class="card-body">
+          <p>Wirtschaftliches Eigentum liegt dort, wo jemand die tatsächliche Herrschaft wie ein Eigentümer ausübt und den zivilrechtlichen Eigentümer auf Dauer von der Einwirkung ausschließen kann.</p>
+          <br>
+          <p>Die CLG ist keine Stiftung — sie kann aber <strong>funktional ähnlich</strong> eingesetzt werden. Sind Entscheidungsstrukturen so gestaltet, dass ein DACH-Mandant faktisch allein entscheidet?</p>
+        </div>
+        <div class="card-summary">Klicken für Details →</div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-icon green">🛡️</div>
+          <div class="card-title">CLG als Asset Protection</div>
+        </div>
+        <div class="card-body">
+          <p>Solange ein CLG-Mitglied nicht persönlich Garantien, Sicherheiten oder deliktische Haftungstatbestände übernimmt, ist das privat gehaltene Vermögen gegen typische Gesellschaftsgläubiger weitgehend abgeschirmt.</p>
+          <br>
+          <div class="callout callout-tip">
+            <strong>✅ Praktisch:</strong> Die Haftungsbeschränkung wirkt zwischen dem Vermögen der CLG und dem Privatvermögen der Mitglieder — solange die Struktur echt geführt wird.
+          </div>
+        </div>
+        <div class="card-summary">Klicken für Details →</div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-icon orange">⚠️</div>
+          <div class="card-title">Gestaltungsmissbrauch</div>
+        </div>
+        <div class="card-body">
+          <p>Deutsche Gerichte qualifizieren zwischengeschaltete Auslandsgesellschaften regelmäßig als Gestaltungsmissbrauch, wenn sie erkennbar nur zur Steuerersparnis oder Gläubigerverlagerung eingeschaltet werden.</p>
+          <br>
+          <div class="callout callout-warn">
+            <strong>⚠️ Fazit:</strong> Eine tragfähige Struktur erfordert eine echte Vermögensverschiebung zur CLG, nachvollziehbare Non-Profit-Zwecke, dokumentierte Governance sowie Substanz in UK.
+          </div>
+        </div>
+        <div class="card-summary">Klicken für Details →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: IMMOTILIEN ═══════ -->
+  <section class="content-section" id="section-immo">
+    <h2 class="section-title">🏠 Immobilien als Assetklasse</h2>
+    <p class="section-subtitle">Auflassung, Vormerkung und Vorkaufsrechte — das deutsche Grundbuchsystem.</p>
+
+    <div class="accordion-item open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>📜</span> Vollübertragung der Immobilie auf die CLG</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Wird eine deutsche Immobilie zivilrechtlich an die CLG übertragen (Auflassung vor Notar, Eintragung als Eigentümerin im Grundbuch), gehört sie <strong>nicht mehr zum Vermögen der Privatperson</strong>.</p>
+          <br>
+          <table class="data-table">
+            <thead><tr><th>Vorteil</th><th>Risiko</th></tr></thead>
+            <tbody>
+                <tr><td>Gläubiger greifen nicht direkt auf das Grundstück zu</td>
+                    <td>Anfechtbarkeit bei Gläubigerbenachteiligung (§ 3 AnfG / § 133 InsO)</td></tr>
+                <tr><td>Echter Pfändungsschutz auf Ebene der Person</td>
+                    <td>Risiko steigt bei erkennbar missbräuchlichen Übertragungen</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>⚖️</span> Steuerliche Folgen der Übertragung</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <table class="data-table">
+            <thead><tr><th>Steuerart</th><th>Detail</th></tr></thead>
+            <tbody>
+                <tr><td>Grunderwerbsteuer (GrESt)</td><td>3,5% – 6,5% je nach Bundesland</td></tr>
+                <tr><td>Schenkungsteuer</td><td>Klasse III: 30–50% je nach Wert</td></tr>
+                <tr><td>Ertragsteuer</td><td>Stille Reserven können aufgedeckt werden</td></tr>
+                <tr><td>Anfechtung</td><td>Bis zu 10 Jahre (§ 3 AnfG / § 133 InsO)</td></tr>
+              <td>Ertragsteuer</td>
+              <td>Stille Reserven können aufgedeckt werden</td>
+              <td>Anfechtung</td>
+              <td>Bis zu 10 Jahre (§ 3 AnfG / § 133 InsO)</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>📋</span> Empfehlungen zur Immobilienübertragung</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <div class="callout callout-tip">
+            <strong>✅ Timing ist entscheidend:</strong> Asset Protection ist nur in "ruhigen Zeiten" tragfähig — also lange vor konkret absehbaren Forderungen. Übertragungen unter Druck sind anfechtbar und ggf. strafbar.
+          </div>
+          <br>
+          <ul style="padding-left: 18px; font-size: 13px;">
+            <li><strong>Steuerfolgen vorab durchrechnen</strong> (GrESt + Schenkungsteuer) und gegen Schutznutzen abwägen</li>
+            <li><strong>Belastete Immobilien beachten:</strong> Grundpfandrechte, Banken-Zustimmung, Vorfälligkeitsfragen</li>
+            <li><strong>Genehmigungspflichten</strong> (Sanierungsgebiete) prüfen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: CRYPTO & GOLD ═══════ -->
+  <section class="content-section" id="section-crypto">
+    <h2 class="section-title">🔐 Kryptowerte & Physische Assets</h2>
+    <p class="section-subtitle">Besonderheiten von on-chain Vermögen und physischem Gold.</p>
+
+    <div class="card-grid">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-icon blue">₿</div>
+          <div class="card-title">Krypto-Assets & Wallets</div>
+        </div>
+        <div class="card-body">
+          <p>Krypto-Vermögen kennt <strong>keine klassische Registereintragung</strong> wie ein Grundbuch — Eigentum wird durch Kontrolle über Private Keys vermittelt.</p>
+          <br>
+          <p><strong>Zwei Gestaltungsvarianten:</strong></p>
+          <ul style="padding-left: 18px; margin-top: 6px;">
+            <li><em>Empfohlen:</em> CLG führt eigene Custody-Accounts bei regulierten Anbietern</li>
+            <li><em>Risikoreich:</em> CLG formell Inhaberin, Mandant kontrolliert Keys — leicht als Strohmann erkennbar</li>
+          </ul>
+          <br>
+          <div class="callout callout-warn">
+            <strong>⚠️ Wichtig:</strong> Nur die erste Variante ist Vermögensschutzwirksam. Steuerliche Entstrickung, Schenkungsteuer und Zurechnungsbesteuerung sind relevant.
+          </div>
+        </div>
+        <div class="card-summary">Klicken für Details →</div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-header">
+          <div class="card-icon green">🥇</div>
+          <div class="card-title">Gold & Physische Assets</div>
+        </div>
+        <div class="card-body">
+          <p>Bei physischem Gold hängt die Eigentumszurechnung davon ab, wer wirtschaftlich als Eigentümer auftritt und in wessen Namen Lagerverträge geführt werden.</p>
+          <br>
+          <ul style="padding-left: 18px; margin-top: 6px;">
+            <li>Lagerung und Verträge im Namen der CLG</li>
+            <li>Dokumentierte Governance zu Erwerb, Veräußerung</li>
+            <li>Steuerliche Einordnung der Übertragung</li>
+          </ul>
+          <br>
+          <div class="callout callout-tip">
+            <strong>✅ Kern:</strong> Externe Rechtslage (Vertragspartner, Verwahrnachweise) muss angepasst werden — interne „Aufschlusserklärungen" allein sind nicht ausreichend.
+          </div>
+        </div>
+        <div class="card-summary">Klicken für Details →</div>
+      </div>
+    </div>
+
+    <!-- TRANSPARENCY WARNING -->
+    <div style="margin-top: 20px;">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <h3><span>🔍</span> Transparenz & Anonymität — ein Mythos</h3>
+          <span class="accordion-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <p>Die Vorstellung, eine CLG verschleiere den wirtschaftlich Berechtigten, ist <strong>überholt</strong>. Seit dem ECCTA (ab 18.11.2025) ist die <strong>Identitätsverifizierung</strong> bei Companies House für Directors und PSC Pflicht.</p>
+            <br>
+            <table class="data-table">
+              <thead><tr><th>Transparenz-Regelung</th><th>Status 2026</th></tr></thead>
+              <tbody>
+                  <tr><td>ECCTA ID-Verifizierung</td><td>Ab Nov 2025 verbindlich</td></tr>
+                  <tr><td>PSC / Transparenzregister</td><td>Aktiv in DE & AT</td></tr>
+                  <tr><td>CRS / DAC</td><td>Automatischer Informationsaustausch</td></tr>
+                <td>Aktiv in DE & AT</td>
+                <td>CRS / DAC</td>
+                <td>Automatischer Informationsaustausch</td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: TAX ═══════ -->
+  <section class="content-section" id="section-tax">
+    <h2 class="section-title">📊 Steuerrechtlicher Rahmen</h2>
+    <p class="section-subtitle">Übertragung, Zurechnung und Hinzurechnungsbesteuerung — was DACH-Mandanten wissen müssen.</p>
+
+    <div class="accordion-item open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>📝</span> Schenkungsteuer bei Auslandsstrukturen</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Die Übertragung von Vermögen auf ausländische stiftungsähnliche Vehikel unterliegt grundsätzlich der Schenkungsteuer — sofern keine Steuerbefreiung greift.</p>
+          <br>
+          <p><strong>Familienstiftungen:</strong> Das Steuerklassenprivileg des § 15 Abs. 2 ErbStG wurde traditionell nur auf inländische Stiftungen angewendet.</p>
+          <br>
+          <div class="callout callout-tip">
+            <strong>📌 BFH & EU-Recht:</strong> Benachteiligungen von Drittstaaten-Stiftungen können gegen Unionsrecht verstoßen (Art. 63 AEUV). § 15 AStG muss unionsrechtskonform auch auf Drittstaaten angewendet werden.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>🔢</span> Zurechnungsbesteuerung & AStG</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Zurechnungsbesteuerung droht, wenn der Steuerpflichtige anfallsberechtigt ist — also eine gesicherte Rechtsposition auf spätere Auszahlung hat.</p>
+          <br>
+          <table class="data-table">
+            <thead><tr><th>Szenario</th><th>Folge</th></tr></thead>
+            <tbody>
+                <tr><td>Mandant als Begünstigter</td><td>Zurechnungsbesteuerung der CLG-Erträge</td></tr>
+                <tr><td>Echte Non-Profit-CLG, unabhängiges Board</td><td>Geringeres Zurechnungsrisiko</td></tr>
+                <tr><td>Allerdings:</td><td>Mandant verliert Kontrolle</td></tr>
+              <td>Geringeres Zurechnungsrisiko</td>
+              <td>Allerdings:</td>
+              <td>Mandant verliert Kontrolle</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>⚡</span> Hinzurechnungsbesteuerung — UK als Drittstaat</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Niedrigbesteuerte passive Einkünfte (Zinsen, Dividenden) einer beherrschten Auslandsgesellschaft werden dem inländischen Berechtigten <strong>laufend zugerechnet — auch ohne Ausschüttung</strong>.</p>
+          <br>
+          <div class="callout callout-warn">
+            <strong>⚠️ Hebel:</strong> Niedrigbesteuerung bei effektiver Belastung unter 15% (§ 8 Abs. 5 AStG). Über § 13 AStG erfolgt die Zurechnung selbst ohne beherrschende Stellung — exakt das Profil einer ETF-/Krypto-haltenden CLG.
+          </div>
+          <br>
+          <p><strong>Wichtig:</strong> Der Substanztest (§ 8 Abs. 2 AStG) steht für UK als Drittstaat nicht ohne Weiteres offen — ein Nachteil gegenüber EU-Strukturen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span>🏆</span> Gesamteinschätzung 2026</h3>
+        <span class="accordion-arrow">▶</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <p>Für DACH-Mandanten ist die UK-CLG nach dem Brexit <strong>deutlich riskanter geworden</strong>.</p>
+          <br>
+          <p><strong>Der einzige Pfad zu echtem Schutz:</strong> reale UK-Substanz + echte Entäußerung — kostet Kontrolle, löst Steuern aus und ist teuer.</p>
+          <br>
+          <p><strong>In vielen Fällen sind Alternativen überlegen:</strong> im Wohnsitzstaat anerkannte Familienstiftung, Liechtenstein/EU-Struktur oder klassische Instrumente (Güterstand, Familienpool GmbH & Co. KG).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: RISK MATRIX ═══════ -->
+  
+    <!-- BENEFITS / VORTEILE — positive Seite -->
+    <section class="content-section" id="section-benefits">
+      <h2 class="section-title">✅ Vorteile der UK CLG-Struktur</h2>
+       <p class="section-subtitle">Neben Risiken gibt die CLG auch konkrete Vorteile, wenn sie richtig aufgebaut wird.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon green">🛡️</div>
+            <div class="card-title">Haftungsbeschränkung der Mitglieder</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Mitglieder haften nur mit einer garantierten Summe (typisch £10–100). Das Privatvermögen bleibt — bei korrekt geführter CLG — geschützt vor Gesellschaftsverbindlichkeiten [2][4].
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon green">🏛️</div>
+            <div class="card-title">Stiftungsähnlicher Aufbau</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Keine Aktien, keine Shares — ähnlich einer Stiftung. Dies macht die CLG zu einem einzigartigen Vehikel für Vermögensabschirmung und gemeinwohlorientierte Strukturen [1][3].
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon blue">📋</div>
+            <div class="card-title">Flexible Governance</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Die Articles of Association können individuell gestaltet werden. Steuerung durch Directors mit klarer Trennung zwischen Entscheidungsebenen und Kontrollmechaniken [5][7].
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon green">🌍</div>
+            <div class="card-title">Internationale Anerkennung</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Die UK CLG ist international anerkannt — besonders in Common-Law-Systemen. In der Schweiz gilt die Inkorporationstheorie, was die Anerkennung erleichtert [29].
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon blue">💼</div>
+            <div class="card-title">Praktische Umsetzung in der CLG</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Die CLG kann Vermögenswerte halten (Immobilien, Depots, Krypto) ohne dass Shares emittiert werden müssen. Dies reduziert das Risiko von Gläubigerzugriff auf die Eigentümerschaft [6][8].
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon green">🤝</div>
+            <div class="card-title">NPO-/Gemeinwohl-Potenzial</div>
+          </div>
+          <div style="padding: 16px 22px; font-size: 13.5px;">
+           Bei gemeinnütziger oder gemeinwohlorientierter Ausrichtung wirkt die CLG in Banken- und Behördenkommunikation weniger "steuervermeidungsgetrieben" als klassische Offshore-Vehikel [7].
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <section class="content-section" id="section-risk">
+    <h2 class="section-title">🚦 Risikoliste & Gefahrenampel</h2>
+    <p class="section-subtitle">Transparente Übersicht — welche Risiken existieren und wie sie sich minimieren lassen.</p>
+
+<div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 12px; justify-content: center;">
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#c94a4a;margin-right:4px;"></span> Hoch — sofort klären</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#e8943a;margin-right:4px;"></span> Mittel — vorbereiten</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3da65f;margin-right:4px;"></span> Nieder — planen</span>
+        </div>
+        <div class="risk-grid">
+      <div class="risk-card red" role="article" aria-label="Hoches Risiko: Nichtanerkennung und Haftungsumkehr - CLG ohne UK Verwaltungssitz">
+        <div class="risk-label"><div class="risk-dot red"></div><h4>🔴 Nichtanerkennung / Haftungsumkehr</h4></div>
+        <p>CLG ohne UK-Verwaltungssitz → keine Haftungsbeschränkung, volle persönliche Haftung [26][27][29]. Größtes Einzelrisiko.</p>
+      </div>
+
+      <div class="risk-card red" role="article" aria-label="Hohes Risiko: Scheingestaltung und zivilrechtlicher Durchgriff">
+        <div class="risk-label"><div class="risk-dot red"></div><h4>🔴 Scheingestaltung / Durchgriff</h4></div>
+        <p>Volle Kontrolle beim Mandanten → zivil- und steuerrechtlicher Durchgriff, Schutz entfällt [13][15].</p>
+      </div>
+
+      <div class="risk-card red" role="article" aria-label="Hohes Risiko: Strafbarkeit bei spater Ubertragung unter Vollstreckungsdruck">
+        <div class="risk-label"><div class="risk-dot red"></div><h4>🔴 Strafbarkeit bei spätem Timing</h4></div>
+        <p>Übertragung unter Vollstreckungs-/Insolvenzdruck → §§ 283, 288 StGB. Anfechtung bis zu 10 Jahre.</p>
+      </div>
+
+      <div class="risk-card orange">
+        <div class="risk-label"><div class="risk-dot orange"></div><h4>🟠 Hinzurechnungs-/Zurechnungsbesteuerung</h4></div>
+        <p>Passive, niedrigbesteuerte Einkünfte werden laufend zugerechnet (§§ 7 ff., § 13, § 15 AStG).</p>
+      </div>
+
+      <div class="risk-card orange">
+        <div class="risk-label"><div class="risk-dot orange"></div><h4>🟠 Steuerkosten der Übertragung</h4></div>
+        <p>GrESt, Schenkungsteuer (Klasse III 30–50%), stille Reserven, ggf. Wegzugsbesteuerung.</p>
+      </div>
+
+      <div class="risk-card orange">
+        <div class="risk-label"><div class="risk-dot orange"></div><h4>🟠 Transparenz statt Anonymität</h4></div>
+        <p>ECCTA, PSC/Transparenzregister, CRS/DAC — wirtschaftlich Berechtigter ist identifiziert.</p>
+      </div>
+
+      <div class="risk-card green">
+        <div class="risk-label"><div class="risk-dot green"></div><h4>🟡 Eigenhaftung der CLG</h4></div>
+        <p>Eigene Verbindlichkeiten können Schutzvermögen aufzehren → konservative Geschäftspolitik empfohlen.</p>
+      </div>
+
+      <div class="risk-card green">
+        <div class="risk-label"><div class="risk-dot green"></div><h4>🟡 Politisches Risiko</h4></div>
+        <p>Zukünftige Vermögensabgaben könnten an Beneficial Ownership anknüpfen — CLG bietet keinen Garantieschutz.</p>
+      </div>
+
+      <div class="risk-card green">
+        <div class="risk-label"><div class="risk-dot green"></div><h4>🟡 Banking & Substanz-Praxis</h4></div>
+        <p>Konto-Onboarding schwierig, laufende UK-Compliance-Kosten. Realistische Erwartungen wichtig.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: CHECKLIST ═══════ -->
+  <section class="content-section" id="section-checklist" aria-label="Checkliste zehn Schritte">
+    <h2 class="section-title">✅ Handlungs-Checkliste</h2>
+    <p class="section-subtitle">10 Schritte in der richtigen Reihenfolge — interaktiv abhakbar.</p>
+
+    <div class="checklist-section">
+      <div class="checklist-header">
+        <h3>✅ Ihr Weg — 10 Schritte zur Umsetzung</h3>
+        <div style="display:flex; align-items:center; gap: 14px;">
+          <span id="checkCount" style="font-size:14px; font-weight:700; color:var(--primary);">0 / 10</span>
+          <button onclick="resetChecklist()" style="padding:6px 14px; border:1px solid var(--gray-200); background:var(--white); border-radius:6px; font-size:12px; cursor:pointer;">Reset</button>
+        </div>
+      </div>
+
+      <div id="checklistContainer">
+        <!-- Items are rendered by JS -->
+      </div>
+
+      <!-- Visual progress bar -->
+      <div style="margin-top: 20px; background: var(--gray-200); border-radius: 10px; height: 8px; overflow: hidden;">
+        <div id="progressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary-light), var(--primary)); transition: width 0.4s ease; border-radius: 10px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION: FAQ / SUMMARY ═══════ -->
+     <!-- ═══════ SECTION: GOLD / PHYSICAL ASSETS ═══════ -->
+   <section class="content-section" id="section-gold">
+     <h2 class="section-title">🥇 Physische Sachwerte</h2>
+     <p class="section-subtitle">Gold und physische Assets — Eigentumsnachweis und Lagerung.</p>
+
+     <div class="accordion-item open">
+       <div class="accordion-header" onclick="toggleAccordion(this)">
+         <h3><span>🏦</span> Eigentumszuordnung bei Gold</h3>
+         <span class="accordion-arrow">▶</span>
+       </div>
+       <div class="accordion-body">
+         <div class="accordion-content">
+           <p>Bei physischem Gold hängt die Eigentumszurechnung davon ab, wer wirtschaftlich als Eigentümer auftritt und in wessen Namen Lagerverträge, Schließfächer oder Sammelverwahrungen geführt werden.</p>
+           <br>
+           <table class="data-table">
+             <thead><tr><th>Szenario</th><th>Schutz</th></tr></thead>
+             <tbody>
+                 <tr><td>Lagervertrag im Namen der CLG + Verwahrnachweise</td>
+                     <td style="color: var(--green);">✅ Klare Trennung möglich</td></tr>
+                 <tr><td>Nur interne "Aufschlusserklärung" ohne externe Anpassung</td>
+                     <td style="color: var(--orange);">⚠️ Schwacher Schutz</td></tr>
+             </tbody>
+           </table>
+           <br>
+           <div class="callout callout-tip">
+             <strong>✅ Empfohlen:</strong> Lagerung und Verträge im Namen der CLG, dokumentierte Governance zu Erwerb/Veräußerung, steuerliche Einordnung der Übertragung.
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <div class="accordion-item">
+       <div class="accordion-header" onclick="toggleAccordion(this)">
+         <h3><span>📋</span> Steuerliche Einordnung der Übertragung</h3>
+         <span class="accordion-arrow">▶</span>
+       </div>
+       <div class="accordion-body">
+         <div class="accordion-content">
+           <ul style="padding-left: 18px; font-size: 13px;">
+             <li><strong>Schenkung:</strong> Unentgeltliche Übertragung unterliegt Schenkungsteuer</li>
+             <li><strong>Entgeltlicher Verkauf:</strong> Kann stille Reserven aufdecken — steuerpflichtig</li>
+             <li><strong>Einlage:</strong> Einbringung in die CLG — steuerliche Folgen prüfen</li>
+             <li><strong>Doppelbesteuerungsabkommen:</strong> Falls nicht mehr DACH-ansässig, ggf. anwendbar</li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </section>
+
+
+   <section class="content-section" id="section-qa">
+      <!-- Conversion CTA before FAQ -->
+      <div style="padding: 16px 50px; background: var(--primary-bg); text-align: center;">
+        <p style="font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
+          📌 Noch Fragen? Die Antworten finden Sie hier →
+        </p>
+      </div>
+
+
+     <h2 class="section-title">💡 Häufige Fragen & Antworten</h2>
+     <p class="section-subtitle">Die wichtigsten Fragen rund um die UK CLG – verständlich und fundiert beantwortet.</p>
+
+     <!-- FAQ 1 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">🎯</span>
+         <h3>Ist die UK CLG für mich als DACH-Mandant geeignet?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p><strong>Kurzantwort:</strong> Unter den richtigen Voraussetzungen – ja. Aber die Anforderungen sind deutlich höher, als viele Berater suggerieren.</p>
+         <br>
+         <p>Echte UK-Substanz + echte Vermögensentäußerung + Governance mit echter Substanz = der einzige belastbare Weg. Eine CLG ohne diese Elemente ist in DACH schlicht nicht haltbar.</p>
+         <br>
+         <div class="callout callout-tip">
+           <strong>✅ Empfohlene Voraussetzung:</strong> Der Verwaltungssitz muss nachweislich in UK liegen – mit ortsansässigen Director(s), lokalen Board-Meetings, UK-Bankkonto und tatsächlicher Buchhaltung.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 2 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">💰</span>
+         <h3>Wie hoch sind die tatsächlichen Kosten?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p>Die Kosten lassen sich in vier Kategorien einteilen:</p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Grunderwerbsteuer:</strong> 3,5–6,5% je nach Bundesland</li>
+           <li><strong>Schenkungsteuer:</strong> 30–50% (Klasse III) – wenn kein Freibetrag</li>
+           <li><strong>UK-Compliance:</strong> Accounts, Confirmation Statement, ggf. Audit</li>
+           <li><strong>Beratungskosten:</strong> Anwalt + Steuerberater + UK-Solicitor</li>
+         </ul>
+         <br>
+         <div class="callout callout-warn">
+           <strong>⚠️ Hinweis:</strong> Eine CLG zu führen ist eine wiederkehrende Pflicht – nicht ein einmaliger Akt. Jährliche UK-Filings und steuerliche Reporting-Pflichten sind unvermeidbar.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 3 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">⏰</span>
+         <h3>Wann ist der richtige Zeitpunkt für eine CLG?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p><strong>Die Antwort lautet: In „ruhigen Zeiten".</strong></p>
+         <br>
+         <p>Asset Protection funktioniert nur, wenn die Übertragung lange vor absehbaren Forderungen oder Vollstreckungen erfolgt. Jede Übertragung unter Druck ist anfechtbar – und kann ggfs. strafbar sein (§ 3 AnfG / § 133 InsO bis zu 10 Jahre).</p>
+         <br>
+         <div class="callout callout-warn">
+           <strong>⚠️ Warnung:</strong> Es gibt keinen „perfekten" Zeitpunkt – nur den richtigen und den, der zu spät kommt. Wenn Gläubiger bereits auf der Schwelle stehen: zu spät.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 4 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">🔄</span>
+         <h3>Gibt es bessere Alternativen zur CLG?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p>Ja – und das ist wichtig zu wissen:</p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Anerkannte Familienstiftung</strong> (z.B. Liechtenstein, EU/EWR) – oft besser anerkannt in DACH</li>
+           <li><strong>Güterstand-Lösungen</strong> oder Familienpool – weniger Komplexität</li>
+           <li><strong>Klassische Versicherungen</strong> – für reine Vermögenssicherung bewährt</li>
+           <li><strong>Familiengesellschaft mit Haftungsobergrenze</strong> – wenn keine Non-Profit-Struktur gewünscht</li>
+         </ul>
+         <br>
+         <div class="callout callout-tip">
+           <strong>💡 Empfehlung:</strong> Lassen Sie sich unabhängig beraten – auch über die CLG hinaus. Oft sind anerkannte EU-/Liechtenstein-Strukturen rechtssicherer und kostengünstiger.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 5 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">📋</span>
+         <h3>Was ist der „belastbare Mittelweg"?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p>Das ist die Kernfrage:</p>
+         <br>
+         <p><strong>Echte Substanz + Governance, die dem Mandanten Einfluss sichert (als ein Director unter mehreren, mit dokumentierten Zustimmungsvorbehalten), ohne ihn zum alleinigen wirtschaftlich Berechtigten zu machen.</strong></p>
+         <br>
+         <p>Dieser Mittelweg kostet: Steuerliche Folgen (Schenkungsteuer, Ertragsteuer) müssen akzeptiert werden. Aber er ist der einzige Weg, der rechtlich haltbar ist – in DE/AT wie auch in der Schweiz.</p>
+         <br>
+         <div class="callout callout-warn">
+           <strong>⚠️ Die harte Wahrheit:</strong> Wer volle Kontrolle UND vollen Schutz gleichzeitig will, scheitert. Es gibt keine Auswege. Der einzige Pfad zu echtem Schutz ist echte Entäußerung.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 6 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">🛡️</span>
+         <h3>Schützt die CLG mich vor Gläubigern?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p><strong>Ja – aber nur unter Bedingungen.</strong></p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Bedingung 1:</strong> Die CLG ist zivilrechtlich und wirtschaftlich Eigentümerin der Vermögenswerte</li>
+           <li><strong>Bedingung 2:</strong> Der Mandant hat nur begrenzte Mitgliedsrechte (als Director, nicht als Eigentümer)</li>
+           <li><strong>Bedingung 3:</strong> Deutsche Gerichte erkennen die CLG als eigenständige Rechtsperson an</li>
+         </ul>
+         <br>
+         <div class="callout callout-warn">
+           <strong>⚠️ Aber:</strong> Wenn Bedingung 2 nicht erfüllt ist (z.B. Mandant hat Alleinkontrolle), greifen Gläubiger durch – und die Haftungsbeschränkung wird unwirksam.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 7 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">📄</span>
+         <h3>Welche Dokumentationen sind erforderlich?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p>Für eine haltbare CLG-Struktur in DACH:</p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Articles of Association</strong> mit klarem Non-Profit-/Vermögensverwaltungs-Zweck</li>
+           <li><strong>Board-Meeting-Protokolle</strong> – jährlich, in UK abgehalten</li>
+           <li><strong>Transparenzregister (PSC)</strong> – korrekt geführt bei Companies House</li>
+           <li><strong>Jährliche Accounts & Confirmation Statement</strong></li>
+           <li><strong>Dokumentation der Governance:</strong> Wer entscheidet wann über was?</li>
+         </ul>
+         <br>
+         <div class="callout callout-tip">
+           <strong>✅ Wichtig:</strong> Eine „Schublade" mit dokumentierter Governance ist besser als eine teure CLG ohne nachweisbare Substanz.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 8 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">🔍</span>
+         <h3>Wie prüfe ich, ob meine CLG in DACH anerkannt wird?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p>Dies ist der entscheidende Punkt:</p>
+         <br>
+         <table class="data-table">
+           <thead><tr><th>Land</th><th>Theorie</th><th>Bedingung</th><th>Risiko bei DACH-Steuerung</th></tr></thead>
+           <tbody>
+             <tr><td>🇩🇪 Deutschland</td><td>Sitztheorie</td><td>Nur mit UK-Sitz</td><td style="color:var(--red)">Vollständige Haftung</td></tr>
+             <tr><td>🇦🇹 Österreich</td><td>Sitztheorie</td><td>Nur mit UK-Sitz</td><td style="color:var(--red)">Vollständige Haftung</td></tr>
+             <tr><td>🇨🇭 Schweiz</td><td>Inkorporationstheorie</td><td>Grundsätzlich ja</td><td style="color:var(--orange)">Steueransässigkeit</td></tr>
+           </tbody>
+         </table>
+         <br>
+         <div class="callout callout-warn">
+           <strong>⚠️ Fazit:</strong> Der einzige sichere Weg ist ein nachweisbarer Verwaltungssitz in UK. Sonst droht die Umqualifizierung zur GbR/OHG/Einzelunternehmen – mit voller persönlicher Haftung.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 9 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">🏠</span>
+         <h3>Funktioniert der Vermögensschutz auch für Immobilien?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p><strong>Ja – aber mit besonderen Anforderungen:</strong></p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Notar erforderlich:</strong> Auflassung und Eintragung im Grundbuch</li>
+           <li><strong>Schenkungs- / Grunderwerbsteuer:</strong> Je nach Bundesland 3,5–6,5% + ggf. Schenkungsteuer</li>
+           <li><strong>Anfechtbar:</strong> Bis zu 10 Jahre (§ 3 AnfG / § 133 InsO)</li>
+           <li><strong>Genehmigungen:</strong> Sanierungsgebiete benötigen Sondergenehmigungen</li>
+         </ul>
+         <br>
+         <div class="callout callout-tip">
+           <strong>✅ Empfohlen:</strong> Vermögensschutz für Immobilien ist nur in „ruhigen Zeiten" tragfähig. Mit belasteten Objekten (Grundpfandrechten) wird es deutlich komplexer.
+         </div>
+       </div>
+     </div>
+
+     <!-- FAQ 10 -->
+     <div class="faq-card">
+       <div class="faq-question" onclick="toggleFaq(this)">
+         <span class="faq-icon">👨‍⚖️</span>
+         <h3>Wann brauche ich einen Anwalt für die CLG?</h3>
+         <span class="faq-arrow">▶</span>
+       </div>
+       <div class="faq-answer">
+          <div class="faq-answer-inner">
+         <p><strong>In jedem Schritt.</strong></p>
+         <br>
+         <ul style="padding-left: 18px; font-size: 13.5px;">
+           <li><strong>Vor der Gründung:</strong> Anwaltliche Beratung zur Tragbarkeit und steuerlichen Folgen</li>
+           <li><strong>Bei der Gründung:</strong> UK-Solicitor für Articles of Association und Companies House</li>
+           <li><strong>Bei der Asset-Übertragung:</strong> Notar (Immobilien) + Steuerberater (steuerliche Folgen)</li>
+           <li><strong>Auch danach:</strong> Jährliche Prüfung der Substanz und DACH-Steuerlage</li>
+         </ul>
+         <br>
+         <div class="callout callout-tip">
+           <strong>💡 Empfehlung:</strong> Ein integrierter Beraterkreis (DACH-Anwalt + UK-Solicitor + Steuerberater) ist unverzichtbar. Einzelberatung reicht nicht.
+         </div>
+       </div>
+     </div>
+
+     <!-- Summary / CTA block -->
+     <div class="faq-summary" style="margin-top: 28px; padding: 26px; background: linear-gradient(135deg, var(--primary) 0%, #4a9fd4 100%); border-radius: var(--radius); text-align: center; color: white;">
+       <p style="font-size: 17px; font-weight: 700; margin-bottom: 8px;">
+         🎯 Die eine Wahrheit
+       </p>
+       <p style="font-size: 14.5px; line-height: 1.65; max-width: 620px; margin: 0 auto;">
+         „Volle Kontrolle" UND „voller Schutz" sind nicht gleichzeitig erreichbar.<br>
+         Der einzige Pfad zu echtem Vermögensschutz ist echte Entäußerung — und der Preis ist der Kontrollverzicht.
+       </p>
+       <div style="margin-top: 16px;">
+         <button onclick="document.getElementById('section-checklist').scrollIntoView({behavior:'smooth'});" 
+                 style="background: white; color: var(--primary); border: none; padding: 12px 30px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
+           → Zur Checkliste springen
+         </button>
+       </div>
+     </div>
+
+   </section>
+
+
+</main>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+// ─── NAVIGATION ───
+const navItems = document.querySelectorAll('.nav-item');
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const targetId = item.dataset.target;
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      navItems.forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+    }
+  });
+});
+
+// Active nav on scroll
+function updateActiveNav() {
+  const sections = ['hero','section-glossar','section-benefits','section-balance','section-0','section-2','section-immo','section-crypto','section-tax','section-gold','section-risk','section-checklist','section-qa','section-references'];
+  let currentSection = 'hero';
+  
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 150) {
+        currentSection = id;
+      }
+    }
+  }
+
+  navItems.forEach(item => {
+    item.classList.toggle('active', item.dataset.target === currentSection);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
+
+// ─── ACCORDION ───
+function toggleAccordion(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+
+
+// ─── FAQ TOGGLE ───
+function toggleFaq(question) {
+  const card = question.parentElement;
+  card.classList.toggle('open');
+}
+
+// ─── CARD TOGGLE ───
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+
+// ─── INTERACTIVE CHECKLIST ───
+const checklistItems = [
+  { id: 1, title: 'Anerkennungsfrage klären (DE/AT/SCH)', desc: 'Anwaltlich bestätigen lassen, dass der Verwaltungssitz belastbar in UK liegt. Sonst Struktur nicht umsetzen.' },
+  { id: 2, title: 'Reale UK-Substanz aufbauen', desc: 'Ortsansässige Director(s), Board-Meetings in UK mit Protokoll, Büro/Personal, UK-Bankkonto, lokale Buchhaltung.' },
+  { id: 3, title: 'Kontroll-Architektur ehrlich wählen', desc: 'Einfluss über Director-Stellung und definierte Zustimmungsvorbehalte — nicht Alleinkontrolle. Den Kontrollverzicht als Preis des Schutzes akzeptieren.' },
+  { id: 4, title: 'Steuer-Gesamtmodell rechnen lassen', desc: 'GrESt, Schenkungsteuer, Ertragsteuer, AStG-Hinzurechnung, Wegzug — bevor übertragen wird.' },
+  { id: 5, title: 'Timing sauber halten', desc: 'Nur in „ruhigen Zeiten", ohne absehbare Gläubigerlage. Jede Übertragung datiert und werthaltig dokumentieren.' },
+  { id: 6, title: 'Vollständige Transparenz herstellen', desc: 'PSC/Transparenzregister, CRS-Selbstauskunft, korrekte DACH-Steuererklärung. Schutz nur über Recht, nie über Geheimhaltung.' },
+  { id: 7, title: 'Asset-CLG risikofrei halten', desc: 'Keine operativen Geschäfte, keine Bürgschaften durch die CLG, klare Trennung der Konten, keine verdeckten Entnahmen.' },
+  { id: 8, title: 'Assetspezifika abarbeiten', desc: 'Immobilien (Notar, Genehmigungen), Depots (Inhaberwechsel + KYC), Krypto (CLG-Custody), Gold (Lagerverträge im CLG-Namen).' },
+  { id: 9, title: 'Alternativen ernsthaft prüfen', desc: 'Anerkannte Familienstiftung, EU/EWR-/Liechtenstein-Struktur, Güterstands-/Familienpool-Lösungen — oft rechtssicherer und billiger.' },
+  { id: 10, title: 'Laufende Pflege', desc: 'Jährliche Governance-Dokumentation, UK-Filings, Re-Check der Substanz und der DACH-Steuerlage.' }
+];
+
+let checklistState = {};
+
+function renderChecklist() {
+  const container = document.getElementById('checklistContainer');
+  container.innerHTML = '';
+
+  checklistItems.forEach(item => {
+    const checked = checklistState[item.id] ? 'checked' : '';
+    const open = checklistState[item.id + '_open'] ? 'open' : '';
+    
+    container.innerHTML += `
+      <div class="checklist-item ${open}" onclick="toggleCheckItem(${item.id}, event)">
+        <div class="checklist-check ${checked}"></div>
+        <div class="checklist-text">
+          <h4>${item.title}</h4>
+          <p>${item.desc}</p>
+        </div>
+      </div>
+    `;
+  });
+
+  updateChecklistProgress();
+}
+
+function toggleCheckItem(id, event) {
+  if (event.target.classList.contains('checklist-check') || event.target.closest('.checklist-check')) return;
+  
+  checklistState[id] = !checklistState[id];
+  checklistState[id + '_open'] = true;
+  renderChecklist();
+}
+
+function updateChecklistProgress() {
+  const total = checklistItems.length;
+  const done = Object.keys(checklistState).filter(k => typeof checklistState[k] === 'boolean' && checklistState[k]).length;
+  
+  document.getElementById('checkCount').textContent = done + ' / ' + total;
+  document.getElementById('progressBar').style.width = (done / total * 100) + '%';
+}
+
+function resetChecklist() {
+  checklistState = {};
+  renderChecklist();
+}
+
+// Init checklist on load
+renderChecklist();
+
+// ─── SMOOTH START ANIMATION ───
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.metric-box').forEach((box, i) => {
+    box.style.opacity = '0';
+    box.style.transform = 'translateY(12px)';
+    setTimeout(() => {
+      box.style.transition = 'all 0.4s ease';
+      box.style.opacity = '1';
+      box.style.transform = 'translateY(0)';
+    }, 100 + i * 80);
+  });
+});
+
+// ─── KEYBOARD SHORTCUT: Escape to close cards ───
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b => {
+      b.parentElement.classList.remove('open');
+    });
+  }
+});
+
+console.log('%c CLG Vermögensschutz — Interaktive Präsentation ', 'background: #2b6e8f; color: white; font-size: 14px; padding: 8px; border-radius: 4px;');
+</script>
+
+
+     </section>
+   <!-- ═══════ SECTION: REFERENCES ═══════ -->
+   <section class="content-section" id="section-references">
+     <h2 class="section-title">📚 Quellenverzeichnis</h2>
+     <p class="section-subtitle">Alle genannten Rechtsquellen und Fachverweise zum Strategiepapier.</p>
+     
+     <div style="columns: 2; column-gap: 24px; font-size: 12px;">
+<div><p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://svastlexis.co.uk/what-is-a-company-limited-by-guarantee/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[1]</a> What is a company limited by guarantee? In the UK’s landscape of legal entities, this type of compan</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://adcrofthilton.co.uk/understanding-insolvency-for-a-company-limited-by-guarantee/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[2]</a> Limited Liability: Members' liability is limited to the amount they agree to contribute under their </p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.orrlitchfield.com/Limited_Companies/Private_Companies_Limited_by_Guarantee" target="_blank" style="color: var(--primary-light); text-decoration: none;">[3]</a> A private company limited by guarantee is a type of company, which does not have any shares or share</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.limitedcompanyhelp.com/what-is-a-limited-by-guarantee-company/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[4]</a> The liability of members is limited to protect their personal assets if the company is wound up. Thi</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://gocardless.com/guides/posts/what-is-the-companies-act-2006" target="_blank" style="color: var(--primary-light); text-decoration: none;">[5]</a> The Companies Act 2006 reshaped UK business. Discover the key changes and how this vital legislation</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://bateswells.co.uk/updates/loans-involving-companies-limited-by-guarantee-key-issues-for-consideration/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[6]</a> A company limited by guarantee (CLG) is a type of private company where the liability is limited to </p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://boardcloud.co.uk/news/posts/how-the-companies-act-2006-addresses-npos-and-their-related-entities/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[7]</a> The Act allows for the formation of companies limited by guarantee instead of shares. This structure</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.urbancompany.com/blog/everything-you-need-to-know-about-company-limited-by-guarantee" target="_blank" style="color: var(--primary-light); text-decoration: none;">[8]</a> Section 2(21) of Companies Act 2013 defines companies limited by guarantee as ‘’a company having the</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://resources.fenergo.com/de/blogs/wirtschaftlicher-eigent%C3%BCme" target="_blank" style="color: var(--primary-light); text-decoration: none;">[9]</a> Erfahren Sie, wie man einen wirtschaftlichen Eigentümer identifiziert und welche Bedeutung er für Fi</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.otto-schmidt.de/blog/steuerrecht-blog/wirtschaftliches-eigentum-bei-der-wertpapierleihe-STEUERBLOG0000137.html" target="_blank" style="color: var(--primary-light); text-decoration: none;">[10]</a> Demnach verbleibt das wirtschaftliche Eigentum an verliehenen Aktien ausnahmsweise beim Verleiher, w</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.ey.com/de_de/technical/steuernachrichten/schenkungsteuer-bei-auslaendischer-familienstiftung" target="_blank" style="color: var(--primary-light); text-decoration: none;">[11]</a> Die Schenkung von Vermögen an eine Familienstiftung unterliegt grundsätzlich der Schenkungsteuer, so</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://winheller.com/blog/vermogensubertragung-auf-auslandsstiftung-unterliegt-nicht-der-schenkungssteuer/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[12]</a> Eine Vermögensübertragung auf eine Auslandsstiftung unterliegt dann nicht der Schenkungssteuer, wenn</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://datenbank.nwb.de/Dokument/267824/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[13]</a> NWB Datenbank</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);">[14] <em>Quelle nicht verfügbar</em></p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://betriebs-berater.ruw.de/steuerrecht/urteile/Gestaltungsmissbrauch-bei-Abzug-auslaendischer-Steuern-30281" target="_blank" style="color: var(--primary-light); text-decoration: none;">[15]</a> BFH, Urteil vom 2.3.2016 – I R 73/14</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://ra.de/artikel/rade/die-_auflassung-_vormerkung-im-immobilienverkehr" target="_blank" style="color: var(--primary-light); text-decoration: none;">[16]</a> 1. Für wen ist dieser Beitrag – und warum ist das Thema relevant? Der Beitrag richtet sich an Prakti</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://rechtsanwalt-krau.de/grundbuchverfahren-auf-eintragung-eines-pfaendungsvermerks/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[17]</a> Grundbuchverfahren auf Eintragung eines Pfändungsvermerks</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.rechtsportal.de/Rechtsprechung/Rechtsprechung/2015/BGH/Verpfaendung-des-Anspruchs-auf-Auflassung-eines-in-einem-foermlich-festgelegten-Sanierungsgebiet-liegenden-Grundstuecks" target="_blank" style="color: var(--primary-light); text-decoration: none;">[18]</a> Die Rechtsbeschwerden des Beteiligten zu 1 und der Beteiligten zu 2 gegen den Beschluss des Oberland</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.assetprotection.plus/aktuelles/lastenausgleich/lastenausgleichsgesetz-2024" target="_blank" style="color: var(--primary-light); text-decoration: none;">[19]</a> In den letzten Jahren hat das Thema Lastenausgleich und eine mögliche Enteignung von Vermögen, insbe</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.immoverkauf24.de/services/news/lastenausgleich-bei-immobilien-das-muessen-eigentuemer-wissen/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[20]</a> Was steckt wirklich hinter den aktuellen Berichten zum Lastenausgleich? Müssen sich Immobilieneigent</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://benu-vermoegensschutz.de/blog/lastenausgleich/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[21]</a> Wird ein Lastenausgleich 2024 kommen? Wurde das Lastenausgleichsgesetz geändert? So können Sie Immob</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.bafin.de/DE/verbraucherinnen-verbraucher/themen-finanzprodukte/geldanlage/wertpapiere/wertpapiergeschaefte/wertpapiergeschaefte_node.html" target="_blank" style="color: var(--primary-light); text-decoration: none;">[22]</a> Sie erhalten über Ihre depotführende Bank öffentliche Kaufangebote für Wertpapiere? Die Bafin erklär</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);">[23] <em>Quelle nicht verfügbar</em></p>
+<p style="margin-bottom: 8px; color: var(--gray-500);">[24] <em>Quelle nicht verfügbar</em></p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.youtube.com/watch?v=BTK3wYrzXb8" target="_blank" style="color: var(--primary-light); text-decoration: none;">[25]</a> Am 10. November 2022 hat der Bundestag über einen Lasten-Ausgleich zur Finanzierung der finanziellen</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.ihk.de/giessen-friedberg/geschaeftsbereiche/recht-und-steuern/recht/gewerberecht/brexit-folgen-fuer-unternehmen-in-der-rechtsform-der-limited-5364898" target="_blank" style="color: var(--primary-light); text-decoration: none;">[26]</a> Sitztheorie: UK-Limiteds mit Verwaltungssitz in Deutschland werden nicht mehr als solche anerkannt; </p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.hoganlovells.com/de/publications/brexit-olg-munchen-verneint-rechts-und-parteifahigkeit-einer-in-deutschland-verwalteten-uk-limited" target="_blank" style="color: var(--primary-light); text-decoration: none;">[27]</a> OLG München, Urt. v. 5.8.2021 – 29 U 2411/21 Kart; Behandlung als GbR/OHG/Einzelunternehmen mit voll</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.farrer.co.uk/news-and-insights/eccta-further-developments-in-the-identity-verification-regime/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[28]</a> Companies House kann Eintragungen hinterfragen, Daten mit Strafverfolgung teilen und Gesellschaften </p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.leitnerlaw.eu/news/rechtliche-stellung-einer-britischen-limited-mit-verwaltungssitz-in-oesterreich-nach-dem-brexit/" target="_blank" style="color: var(--primary-light); text-decoration: none;">[29]</a> OGH 27.1.2022, 9 Ob 74/21d; § 10 IPRG Sitztheorie; GbR bzw. Einzelunternehmen, Verlust der Rechtsfäh</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.gov.uk/government/news/companies-house-confirms-identity-verification-rollout-from-18-november-2025" target="_blank" style="color: var(--primary-light); text-decoration: none;">[30]</a> Pflicht-IDV für Directors/PSC ab 18.11.2025, Bestand bis 18.11.2026.</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.rosepartner.de/hinzurechnungsbesteuerung-astg-steuerberater.html" target="_blank" style="color: var(--primary-light); text-decoration: none;">[31]</a> ATAD-Umsetzung, BMF-Schreiben 22.12.2023, Beherrschung und Substanznachweis § 8 Abs. 2 AStG.</p>
+<p style="margin-bottom: 8px; color: var(--gray-500);"><a href="https://www.winheller.com/steuerrecht-steuerberatung/internationales-steuerrecht/hinzurechnungsbesteuerung.html" target="_blank" style="color: var(--primary-light); text-decoration: none;">[32]</a> Niedrigsteuer < 15 % (§ 8 Abs. 5), § 13 AStG ohne Beherrschung, Substanztest nur EU/EWR, Treaty Over</p>
+</div><div></div></div>
+     <div style="margin-top: 20px; padding: 16px; background: var(--primary-bg); border-radius: 8px; font-size: 12px;">
+       <strong>⚠️ Haftungsausschluss:</strong> Quellenhinweis: Diese Prasentation basiert auf dem Strategiepapier 
+           "V2_Vermoegensschutz_CLG_DACH_kommentiert.md" (Stand Juni 2026).<br>
+           Dieses Dokument stellt keine Rechts- oder Steuerberatung dar. 
+       Vor jeder Umsetzung ist zwingend ein spezialisierter Anwalt/Steuerberater einzubinden.
+     </div>
+   </section>
+   <div style="text-align:center; padding: 20px; font-size: 11px; color: #aaa; border-top: 1px solid #eee;">
+         Basierend auf "V2_Vermoegensschutz_CLG_DACH_kommentiert" · DACH-Strategiepapier · Juni 2026
+       </div>
+
+
+<!-- ═══ MOBILE RESPONSIVE STYLES ═══ -->
+<style>
+  /* ─── Tablet & below (900px) ─── */
+  @media (max-width: 900px) {
+    .card, .accordion-item { width: 100% !important; min-width: 0 !important; }
+    .data-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+    .content-section { padding: 24px 20px !important; margin-bottom: 0 !important; }
+  }
+  
+  /* ─── Small phone (600px) ─── */
+  @media (max-width: 600px) {
+    .card-body, .accordion-content { padding: 12px 14px !important; font-size: 12px !important; }
+    .accordion-header { padding: 12px 14px !important; }
+    .scale-container { padding: 18px 16px !important; }
+    .checklist-section { padding: 18px 14px !important; }
+    .data-table { font-size: 10px !important; }
+    .data-table th, .data-table td { padding: 6px 8px !important; font-size: 9.5px !important; white-space: normal !important; word-wrap: break-word; }
+    .metric-box { padding: 12px 10px !important; }
+    .content-section { padding: 20px 14px !important; }
+  }
+  
+  /* ─── Very small phone (480px) ─── */
+  @media (max-width: 480px) {
+    .content-section { padding: 16px 10px !important; }
+    .card-body, .accordion-content { padding: 10px 12px !important; font-size: 11.5px !important; }
+    .metric-box { padding: 12px 8px !important; }
+    .metrics-row { grid-template-columns: 1fr !important; }
+  }
+</style>
+</body>
+</html>
