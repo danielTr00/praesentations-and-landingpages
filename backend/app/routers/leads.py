@@ -19,11 +19,13 @@ async def submit_lead(
 ):
     """Handle contact form submission."""
     client_ip = request.client.host if request.client else "unknown"
+
+    # Rate limiting per IP (higher for testing)
     recent_count = session.query(ContactAttempts).filter(
         ContactAttempts.ip_address == client_ip,
     ).count()
 
-    if recent_count > 5:
+    if recent_count > 20:
         raise HTTPException(status_code=429, detail="Rate limit exceeded.")
 
     db_lead = Leads(

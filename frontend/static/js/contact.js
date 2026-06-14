@@ -1,136 +1,138 @@
 /**
- * CLG Vermögensschutz - Contact Form JavaScript
+ * CLG Vermoegenschutz - Contact Form JavaScript
  * Handles form submission, validation, error handling, and API communication.
+ * Supports both localhost and SSLIP.io testing environments.
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
-    const statusDiv = document.getElementById('formStatus');
-    const submitBtn = document.querySelector('.btn-submit');
+(function() {
+    "use strict";
 
-    if (!form || !statusDiv) return;
+     // === CONFIG ===
+     const API_BASE_URL = detectApiBaseUrl();
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+     document.addEventListener('DOMContentLoaded', function() {
+         const form = document.getElementById('contactForm');
+         const statusDiv = document.getElementById('formStatus');
+         const submitBtn = document.querySelector('.btn-submit');
 
-        // Disable button during submission
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Wird gesendet...';
-        statusDiv.className = 'form-status';
-        statusDiv.style.display = 'none';
+         if (!form || !statusDiv || !submitBtn) return;
 
-        // Collect form data
-        const formData = new FormData(form);
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            phone: formData.get('phone') || '',
-            assets_range: formData.get('assets_range') || '',
-            message: formData.get('message') || ''
-        };
+         form.addEventListener('submit', async function(e) {
+              e.preventDefault();
 
-        // Basic validation
-        if (!data.name || data.name.length < 2) {
-            showStatus('Bitte geben Sie Ihren Namen ein (min. 2 Zeichen).', 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Beratung anfragen';
-            return;
-        }
+              // Disable button and show loading state
+             submitBtn.disabled = true;
+             submitBtn.textContent = 'Wird gesendet...';
+             setStatus(statusDiv, '', '');
 
-        if (!isValidEmail(data.email)) {
-            showStatus('Bitte geben Sie eine gültige E-Mail-Adresse ein.', 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Beratung anfragen';
-            return;
-        }
+              // Collect form data
+             const name = document.getElementById('name').value.trim();
+             const email = document.getElementById('email').value.trim();
+             const phone = document.getElementById('phone').value.trim();
+             const assetsRange = document.getElementById('assets_range')?.value || '';
+             const message = document.getElementById('message').value.trim();
 
-        try {
-            // Determine API base URL (local or sslip.io)
-            const apiUrl = getApiBaseUrl();
-            console.log('Submitting to:', `${apiUrl}/leads/submit`);
+              // Validation
+             if (name.length < 2) {
+                 setStatus(statusDiv, 'Bitte geben Sie Ihren vollen Namen ein (min. 2 Zeichen).', 'error');
+                 resetButton(submitBtn);
+                 return;
+              }
 
-            const response = await fetch(`${apiUrl}/leads/submit`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            });
+             if (!isValidEmail(email)) {
+                 setStatus(statusDiv, 'Bitte geben Sie eine gueltige E-Mail-Adresse ein.', 'error');
+                 resetButton(submitBtn);
+                 return;
+              }
 
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Lead submitted:', result);
-                showStatus(
-                    `Vielen Dank, ${data.name}! Wir haben Ihre Anfrage erhalten und melden uns innerhalb von 24 Stunden.`,
-                    'success'
-                );
-                form.reset();
-            } else {
-                const errorData = await response.json().catch(() => ({}));
-                const message = errorData.detail || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
-                showStatus(message, 'error');
-            }
-        } catch (error) {
-            console.error('Submission failed:', error);
-            showStatus(
-                'Verbindung fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
-                'error'
-            );
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Beratung anfragen';
-        }
-    });
-});
+              // Submit to API
+             try {
+                 const data = await submitLead({
+                     name: name,
+                     email: email,
+                     phone: phone,
+                     assets_range: assetsRange,
+                     message: message
+                  });
 
-/**
- * Validate email format
- */
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+                  if (data && data.status === 'success') {
+                      setStatus(
+                          statusDiv,
+                          `Vielen Dank, ${escapeHtml(name)}! Wir haben Ihre Anfrage erhalten und melden uns innerhalb von 24 Stunden.`,
+                          'success'
+                      );
+                      form.reset();
+                   } else {
+                       setStatus(statusDiv, 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es spaeter erneut.', 'error');
+                   }
+               } catch (error) {
+                   console.error('Submission failed:', error);
+                   setStatus(
+                       statusDiv,
+                       'Verbindung fehlgeschlagen. Bitte pruefen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
+                       'error'
+                   );
+               } finally {
+                   resetButton(submitBtn);
+               }
+           });
+       });
 
-/**
- * Determine API base URL based on current hostname
- */
-function getApiBaseUrl() {
-    const hostname = window.location.hostname;
+     // === API FUNCTIONS ===
+     async function submitLead(data) {
+         const response = await fetch(`${API_BASE_URL}/api/leads/submit`, {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json'
+              },
+             body: JSON.stringify(data)
+          });
 
-    // For sslip.io testing: replace with your actual IP
-    if (hostname.includes('sslip.io')) {
-        return 'https://YOUR_IP.sslip.io'; // TODO: Replace YOUR_IP with actual IP
-    }
+         return await response.json();
+      }
 
-    // Default to local backend
-    return '/api';
-}
+     // === DETECTION ===
+     function detectApiBaseUrl() {
+          const hostname = window.location.hostname;
 
-/**
- * Show status message for the contact form
- */
-function showStatus(message, type) {
-    const statusDiv = document.getElementById('formStatus');
-    if (!statusDiv) return;
+          // If running on SSLIP domain, use that domain's backend
+         if (hostname.includes('.sslip.io')) {
+              const ipMatch = hostname.match(/^(.+)\.sslip\.io$/);
+             if (ipMatch) {
+                  return `http://${ipMatch[1]}:8000`;
+               }
+          }
 
-    statusDiv.className = `form-status ${type}`;
-    statusDiv.style.display = 'block';
-    statusDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+          // Default: use local API path
+         return '/api';
+      }
 
-    // Auto-hide success messages after 5 seconds
-    if (type === 'success') {
-        setTimeout(() => {
-            statusDiv.style.display = 'none';
-        }, 8000);
-    }
-}
+     // === HELPERS ===
+     function isValidEmail(email) {
+         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
 
-/**
- * Escape HTML to prevent XSS in status messages
- */
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+     function escapeHtml(text) {
+          const div = document.createElement('div');
+          div.textContent = text;
+          return div.innerHTML || text;
+       }
 
-console.log('CLG Vermögensschutz Contact Form initialized.');
+     function setStatus(element, message, type) {
+          if (!element) return;
+         element.className = `form-status form-status-${type}`;
+         element.style.display = 'block';
+         element.innerHTML = `<p>${escapeHtml(message)}</p>`;
+
+          // Auto-hide success after 8 seconds
+         if (type === 'success') {
+              setTimeout(() => { element.style.display = 'none'; }, 8000);
+           }
+       }
+
+     function resetButton(btn) {
+          btn.disabled = false;
+         btn.textContent = 'Beratung anfragen';
+      }
+
+})();
