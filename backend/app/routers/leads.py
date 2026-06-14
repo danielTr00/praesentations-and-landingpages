@@ -25,7 +25,7 @@ async def submit_lead(
         ContactAttempts.ip_address == client_ip,
     ).count()
 
-    if recent_count > 20:
+    if recent_count > 100:
         raise HTTPException(status_code=429, detail="Rate limit exceeded.")
 
     db_lead = Leads(
