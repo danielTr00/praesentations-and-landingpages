@@ -1,24 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-venv/
-.venv/
-
-# Docker data
-data/
-uploads/
-
-# Env (contain secrets)
-.env
-
-# OS
-.DS_Store
-
-# IDE
-.vscode/
-.idea/
-
-# Logs
+node_modules/
 *.log
-uvicorn.log
+.env
+data/
+__pycache__/
+.DS_Store
+test_screenshot_*.png
+.test-results/
+frontend/image_preview.html
