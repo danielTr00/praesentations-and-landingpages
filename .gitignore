@@ -9,7 +9,7 @@ venv/
 data/
 uploads/
 
-# Env
+# Env (contain secrets)
 .env
 
 # OS
@@ -18,3 +18,7 @@ uploads/
 # IDE
 .vscode/
 .idea/
+
+# Logs
+*.log
+uvicorn.log

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="de-de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLG Admin - Vermögensschutz Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CLG Vermögensschutz Admin",
+        "description": "Admin Dashboard für CLG Vermögensschutz Landing Page"
+    }
+    </script>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-container">
+    <div class="login-box">
+        <h1>CLG Admin</h1>
+        <p>Vermögensschutz Dashboard – Login</p>
+        <input type="text" class="form-input" placeholder="Benutzername" id="username">
+        <input type="password" class="form-input" placeholder="Passwort" id="password">
+        <button class="btn-login" onclick="login()">Anmelden</button>
+    </div>
+</div>
+
+<!-- DASHBOARD (hidden until login) -->
+<div id="dashboardPage" style="display:none;">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>CLG Protect</h2>
+                <p>Vermögensschutz Admin</p>
+            </div>
+            <nav>
+                <a href="#" onclick="switchTab('dashboard')" class="active" id="nav-dashboard">
+                    Dashboard & KPIs
+                </a>
+                <a href="#" onclick="switchTab('webhooks')" id="nav-webhooks">
+                    Webhooks (n8n)
+                </a>
+                <a href="#" onclick="switchTab('content')" id="nav-content">
+                    Content Editor
+                </a>
+                <a href="#" onclick="switchTab('leads')" id="nav-leads">
+                    Leads Management
+                </a>
+                <a href="#" onclick="logout()">
+                    Abmelden
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            
+            <!-- TAB: Dashboard / KPIs -->
+            <div id="tab-dashboard" class="tab-content active">
+                <h1 style="margin-bottom:1.5rem;">Dashboard & KPIs</h1>
+                
+                <!-- KPI Cards -->
+                <div class="kpi-grid" id="kpiCards">
+                    <div class="kpi-card">
+                        <h3>Total Leads (7 Tage)</h3>
+                        <div class="value" id="kpi-total-7d">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Total Leads (30 Tage)</h3>
+                        <div class="value" id="kpi-total-30d">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Total Leads (All)</h3>
+                        <div class="value" id="kpi-total-all">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Konversionsrate</h3>
+                        <div class="value" id="kpi-conversion">--%</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Pipeline Value</h3>
+                        <div class="value" id="kpi-pipeline">€--</div>
+                    </div>
+                </div>
+
+                <!-- Leads by Status -->
+                <div class="panel">
+                    <h2>Leads nach Status (7 Tage)</h2>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;" id="statusDistribution">
+                        <div class="kpi-card" style="flex:1;">
+                            <h3>New</h3>
+                            <div class="value" id="status-new">--</div>
+                        </div>
+                        <div class="kpi-card" style="flex:1;">
+                            <h3>Contacted</h3>
+                            <div class="value" id="status-contacted">--</div>
+                        </div>
+                        <div class="kpi-card" style="flex:1;">
+                            <h3>Qualified</h3>
+                            <div class="value" id="status-qualified">--</div>
+                        </div>
+                        <div class="kpi-card" style="flex:1;">
+                            <h3>Lost</h3>
+                            <div class="value" id="status-lost">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Leads Table -->
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Datum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentLeads">
+                            <tr><td colspan="5" style="text-align:center;color:#a0aec0;">Laden...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: Webhooks (n8n) -->
+            <div id="tab-webhooks" class="tab-content">
+                <h1 style="margin-bottom:1.5rem;">Webhook Konfiguration</h1>
+                
+                <div class="panel">
+                    <h2>n8n Webhook Einstellungen</h2>
+                    <p style="color:#718096;margin-bottom:1.5rem;font-size:0.9rem;">
+                        Konfigurieren Sie die Webhooks für n8n Integration. Alle Payloads werden mit AES-256-GCM verschlüsselt übertragen.
+                    </p>
+                    
+                    <div class="webhook-config">
+                        <div class="config-row">
+                            <span class="config-label">Webhook Secret:</span>
+                            <input type="text" class="config-input" id="wh-secret" value="change-me-in-production">
+                        </div>
+                        <div class="config-row">
+                            <span class="config-label">n8n URL:</span>
+                            <input type="text" class="config-input" id="wh-n8n-url" value="">
+                        </div>
+                        <div class="config-row">
+                            <span class="config-label">Binary Support:</span>
+                            <select class="config-input" id="wh-binary-support">
+                                <option value="enabled">Aktiviert</option>
+                                <option value="disabled">Deaktiviert</option>
+                            </select>
+                        </div>
+                        <div class="config-row">
+                            <span class="config-label">AES-256-GCM:</span>
+                            <input type="text" class="config-input" id="wh-aes-key" value="">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveWebhookConfig()">Konfiguration speichern</button>
+                    </div>
+                </div>
+
+                <!-- Webhook Events Log -->
+                <div class="panel">
+                    <h2>Aktuelle Webhook Events</h2>
+                    <div style="margin-bottom:1rem;">
+                        <button class="btn btn-secondary" onclick="refreshWebhooks()">Erneut laden</button>
+                        <button class="btn btn-danger" onclick="testWebhook()">Test Webhook senden</button>
+                    </div>
+                    <div id="webhookEvents" style="background:#f7fafc;border-radius:6px;padding:1rem;">
+                        <p style="color:#a0aec0;">Keine Events gefunden.</p>
+                    </div>
+                </div>
+
+                <!-- Webhook Endpoints -->
+                <div class="panel">
+                    <h2>Verfügbare Endpunkte</h2>
+                    <div style="background:#f7fafc;border-radius:6px;padding:1rem;">
+                        <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                            <span style="font-family:monospace;color:#3182ce;font-size:0.9rem;">POST</span>
+                            <span style="font-family:monospace;color:#4a5568;font-size:0.9rem;">/webhooks/clg-lead</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #e2e8f0;">
+                            <span style="font-family:monospace;color:#3182ce;font-size:0.9rem;">POST</span>
+                            <span style="font-family:monospace;color:#4a5568;font-size:0.9rem;">/webhooks/clg-upload</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Content Editor -->
+            <div id="tab-content" class="tab-content">
+                <h1 style="margin-bottom:1.5rem;">Content Editor</h1>
+                
+                <div class="panel">
+                    <h2>Landing Page Inhalte bearbeiten</h2>
+                    <p style="color:#718096;margin-bottom:1.5rem;font-size:0.9rem;">
+                        Bearbeiten Sie die Texte und Bilder der Landing Page. Änderungen werden sofort wirksam.
+                    </p>
+                    
+                    <div class="content-editor">
+                        <div class="editor-field">
+                            <label>H1 Titel</label>
+                            <textarea id="edit-hero-heading" rows="2">Vermögensschutz durch UK CLG – DACH-kompatibel</textarea>
+                        </div>
+                        <div class="editor-field">
+                            <label>Subheadline</label>
+                            <textarea id="edit-hero-subtitle" rows="2">Die UK CLG-Struktur – transparent, rechtssicher, umsetzbar.</textarea>
+                        </div>
+                        <div class="editor-field">
+                            <label>Haupt CTA Text</label>
+                            <input type="text" class="form-input" id="edit-hero-cta" value="Jetzt Beratung anfragen →">
+                        </div>
+                        <div class="editor-field">
+                            <label>Trust Bar Items (kommasepariert)</label>
+                            <input type="text" class="form-input" id="edit-trust-items" value="UK Registered, DACH-kompatibel, Transparent">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveContent()">Inhalte speichern</button>
+                    </div>
+                </div>
+
+                <!-- Content Preview -->
+                <div class="panel">
+                    <h2>Vorschau der Landing Page</h2>
+                    <p style="color:#718096;margin-bottom:1rem;font-size:0.9rem;">
+                        Live-Vorschau der Landing Page auf der Hauptseite.
+                    </p>
+                    <iframe src="/landing/" style="width:100%;height:500px;border:1px solid #e2e8f0;border-radius:6px;" title="Landing Page Preview"></iframe>
+                </div>
+            </div>
+
+            <!-- TAB: Leads Management -->
+            <div id="tab-leads" class="tab-content">
+                <h1 style="margin-bottom:1.5rem;">Leads Management</h1>
+                
+                <div class="panel">
+                    <h2>Aktuelle Leads</h2>
+                    <div style="margin-bottom:1rem;display:flex;gap:0.75rem;">
+                        <button class="btn btn-secondary" onclick="refreshLeads()">Neu laden</button>
+                        <input type="text" class="form-input" style="width:200px;margin:0;" placeholder="Suche nach Name..." id="leadSearch">
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Telefon</th>
+                                    <th>Vermögensgröße</th>
+                                    <th>Status</th>
+                                    <th>Datum</th>
+                                    <th>Aktion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leadsTable">
+                                <tr><td colspan="8" style="text-align:center;color:#a0aec0;">Laden...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Status Update -->
+                <div class="panel">
+                    <h2>Status aktualisieren</h2>
+                    <div style="display:flex;gap:1rem;align-items:center;">
+                        <select class="form-input" id="updateLeadId" style="width:80px;margin:0;">
+                            <option value="">Leads...</option>
+                        </select>
+                        <select class="form-input" id="updateStatus" style="width:150px;margin:0;">
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="qualified">Qualified</option>
+                            <option value="lost">Lost</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="updateLeadStatus()">Status aktualisieren</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/admin.js"></script>
+</body>
+</html>
