@@ -820,3 +820,50 @@ textarea:focus-visible {
         padding: 2rem 0;
     }
 }
+
+/* ===== HERO BACKGROUND IMAGE SUPPORT ===== */
+.hero.has-bg-image {
+    background-image: url("../img/hero-bg.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.hero.has-bg-image::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(13, 27, 42, 0.60) 0%, 
+        rgba(27, 40, 55, 0.40) 50%, 
+        rgba(13, 27, 42, 0.55) 100%);
+    pointer-events: none;
+}
+
+/* ===== RESPONSIVE IMAGE STYLES ===== */
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.hero-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+.feature-icon-lg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+}
+
+/* ===== MOBILE HERO IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+    .hero.has-bg-image {
+        background-attachment: scroll; /* Better mobile performance */
+    }
+}
+
+/* ===== PRINT-FRIENDLY IMAGE HIDE ===== */
+@media print {
+    img { display: none !important; }
+}
