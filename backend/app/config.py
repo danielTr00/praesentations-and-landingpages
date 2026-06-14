@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         "https://clg-protect.de,"
         "http://localhost:8000,"
         "http://127.0.0.1:8000,"
-        "http://192.168.178.87.sslip.io"
+        "https://192.168.178.87.sslip.io"
     )
 
     @property

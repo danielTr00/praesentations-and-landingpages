@@ -1,4 +1,4 @@
-"""Database models for CLG Vermoegenschutz system.
+"""Database models for CLG Vermögenerschutz system.
 
 7 Tables: users, content_sections, webhooks, webhook_events, leads, audit_log, contact_attempts
 All tables support SQLite WAL mode with PRAGMA optimizations.

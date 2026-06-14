@@ -1,4 +1,4 @@
-"""Database initialization for CLG Vermoegenschutz system.
+"""Database initialization for CLG Vermögenerschutz system.
 
 Creates SQLite DB with WAL mode and PRAGMA optimizations, then seeds data.
 
@@ -50,7 +50,7 @@ def initialize_database():
         for item in [
               {"section_key": "hero_main", "section_name": "Hero Main",
                "content_type": "heading",
-               "field_data": {"text": "Vermoegenschutz durch UK CLG"},
+               "field_data": {"text": "Vermögenerschutz durch UK CLG"},
                "order_index": 1},
           ]:
             session.add(ContentSections(**item))

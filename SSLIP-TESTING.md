@@ -1,4 +1,4 @@
-# CLG Vermoegenschutz - SSLIP Testing Guide
+# CLG Vermögenerschutz - SSLIP Testing Guide
 
 **Stand:** 14. Juni 2026  
 **Branch:** `clg-vermoegensschutz`  
