@@ -11,12 +11,12 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     REDIS_PASSWORD: str = ""
 
-     # JWT configuration
+    # JWT configuration
     JWT_EXPIRATION_MINUTES: int = 15
     JWT_REFRESH_DAYS: int = 7
 
-      # CORS settings (DACH focus)
-    ALLOWED_ORIGINS: str = "https://clg-protect.de,https://www.clg-protect.de"
+    # CORS settings (DACH focus)
+    ALLOWED_ORIGINS: str = "https://clg-protect.de,https://www.clg-protect.de,http://localhost:8080,http://localhost:3000,http://127.0.0.1:8000"
 
     @property
     def allowed_origins_list(self) -> list[str]:
