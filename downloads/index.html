@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dateien löschen - Coding Ordner aufräumen</title>
+<style>
+:root { --bg:#f1f5f9; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; --accent:#3b82f6; --danger:#ef4444; }
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:-apple-system,system-ui,sans-serif; background:var(--bg); color:var(--text) }
+.header { background:linear-gradient(135deg,#0f172a,#1e293b); padding:2rem 1.5rem; text-align:center }
+.header h1 { color:#f1f5f9; font-size:1.4rem; margin-bottom:0.25rem }
+.header p { color:#94a3b8; font-size:0.85rem }
+.toolbar { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--border); padding:0.75rem 1.5rem; display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center }
+.toolbar button { padding:0.5rem 1rem; border:1px solid var(--border); border-radius:6px; background:#fff; cursor:pointer; font-size:0.85rem }
+.toolbar button:hover { background:var(--bg) }
+.toolbar .count { margin-left:auto; font-size:0.85rem; color:var(--muted) }
+.toolbar .count span { background:var(--accent); color:#fff; padding:2px 8px; border-radius:12px; font-size:0.8rem }
+.stats { display:flex; gap:1rem; padding:1rem 1.5rem; background:#fff; border-bottom:1px solid var(--border) }
+.stat { text-align:center; flex:1 }
+.stat .val { font-size:1.3rem; font-weight:700; color:var(--accent) }
+.stat .lbl { font-size:0.7rem; color:var(--muted); text-transform:uppercase }
+.search { padding:1rem 1.5rem; background:#fff; border-bottom:1px solid var(--border) }
+.search input { width:100%; padding:0.75rem 1rem; border:1px solid var(--border); border-radius:8px; font-size:1rem }
+.item { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1.5rem; background:#fff; border-bottom:1px solid var(--border); cursor:pointer }
+.item:hover { background:var(--bg) }
+.item.selected { background:#eff6ff; border-left:3px solid var(--accent) }
+.item input[type=checkbox] { accent-color:var(--accent) }
+.item .icon { font-size:1.2rem; width:1.5rem; text-align:center }
+.item .name { flex:1; font-size:0.9rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.statusbar { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--border); padding:1rem 1.5rem; display:none }
+.statusbar.show { display:block }
+.btn-del { width:100%; padding:0.75rem; background:var(--danger); color:#fff; border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer }
+@media(max-width:640px) { .header,.toolbar,.stats,.search,.item { padding-left:1rem!important; padding-right:1rem!important } }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Coding Ordner aufräumen</h1>
+<p>/Users/Uni/Desktop/Coding - Dateien auswahleln und löschen</p>
+</div>
+<div class="toolbar">
+<button onclick="toggleAll(true)">Alle wahlen</button>
+<button onclick="toggleAll(false)">Keine wahlen</button>
+<button onclick="filter('dir')">Nur Ordner</button>
+<button onclick="filter('file')">Nur Dateien</button>
+<button onclick="filter('all')">Alle anzeigen</button>
+<div class="count">Gewahlt: <span id="cnt">0</span></div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="search"><input type="text" placeholder="Suchen..." oninput="render()"></div>
+<div id="items"></div>
+<div class="statusbar" id="sbar">
+<button class="btn-del" onclick="doDelete()">Ausgewählte loschen</button>
+</div>
+<script>
+let items=[];
+async function load(){
+  // Simulate file list for now (real server coming soon)
+  items = [
+    {name:'InvoiceCreator',isDir:true,selected:false},
+    {name:'InvoiceManager',isDir:true,selected:false},
+    {name:'Prototype_App',isDir:true,selected:false},
+    {name:'Uni',isDir:true,selected:false},
+    {name:'agent-stack',isDir:true,selected:false},
+    {name:'autodev',isDir:true,selected:false},
+    {name:'hermes-replica',isDir:true,selected:false},
+    {name:'korrektur.log',isDir:false,selected:false},
+    {name:'migration.log',isDir:false,selected:false},
+    {name:'onpex-design-system',isDir:true,selected:false},
+    {name:'downloads-clg-presentation.html',isDir:false,selected:false},
+    {name:'documents_iCloud.zip',isDir:false,selected:false},
+  ];
+  render();
+}
+function render(){
+  const search=document.querySelector('.search input').value.toLowerCase();
+  let filtered=items.filter(i=>{
+    if(search&&!i.name.toLowerCase().includes(search))return false;
+    return true;
+  });
+  const dirs=items.filter(i=>i.isDir).length,files=items.filter(i=>!i.isDir).length;
+  document.getElementById('stats').innerHTML='<div class="stat"><div class="val">'+dirs+'</div><div class="lbl">Order</div></div><div class="stat"><div class="val">'+files+'</div><div class="lbl">Dateien</div></div><div class="stat"><div class="val">'+filtered.length+'</div><div class="lbl">Angezeigt</div></div>';
+  let h='';
+  filtered.forEach((f,i)=>{
+    const idx=items.indexOf(f);
+    h+='<div class="item '+(f.selected?'selected':'')+'" onclick="toggle('+idx+')"><input type="checkbox" '+(f.selected?'checked':'')+' onclick="event.stopPropagation();toggle('+idx+')"><span class="icon">'+(f.isDir?chr(128193):chr(128196))+'</span><span class="name">'+f.name+'</span></div>';
+  });
+  document.getElementById('items').innerHTML=h||'<div style="padding:2rem;text-align:center;color:#94a3b8">Keine Elemente gefunden</div>';
+  const sel=items.filter(i=>i.selected).length;
+  document.getElementById('cnt').textContent=sel;
+  document.getElementById('sbar').className='statusbar'+(sel>0?' show':'');
+}
+function toggle(i){items[i].selected=!items[i].selected;render()}
+function toggleAll(v){items.forEach(i=>i.selected=v);render()}
+function filter(t){render()}
+function doDelete(){var sel=items.filter(i=>i.selected);if(!sel.length)return;if(confirm(sel.map(function(i){return chr(128409)+' '+i.name}).join('\n'))){alert('Auswahl: '+sel.map(function(i){return i.name}).join(', '));}}
+function chr(n){return String.fromCharCode(n)}
+load();
+</script>
+</body>
+</html>
